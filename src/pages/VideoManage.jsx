@@ -14,7 +14,6 @@ export default function VideoManage() {
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
 			if (user) {
-				navigate('admin/video_manage');
 			} else {
 				navigate('admin');
 			}

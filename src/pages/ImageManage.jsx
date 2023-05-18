@@ -14,7 +14,6 @@ export default function ImageManage() {
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
 			if (user) {
-				navigate('admin/image_manage');
 			} else {
 				navigate('admin');
 			}

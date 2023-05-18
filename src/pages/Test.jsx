@@ -10,7 +10,6 @@ export default function Test() {
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
 			if (user) {
-				navigate('admin/test');
 			} else {
 				navigate('admin');
 			}

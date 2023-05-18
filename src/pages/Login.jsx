@@ -18,7 +18,6 @@ export default function Login() {
 
 		await signInWithEmailAndPassword(auth, formJson.email, formJson.password)
 			.then(() => {
-				console.log('signed in');
 				navigate('test');
 			})
 			.catch((error) => {
