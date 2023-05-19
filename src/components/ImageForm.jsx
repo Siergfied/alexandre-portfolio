@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import ImageCropper from './ImageCropper.jsx';
 import Modal from './Modal.jsx';
 
-export default function ImageForm({ id, title, description, formHandler, disabled, coverImageCropped, setCoverImageCropped, backgroundImageCropped, setBackgroundImageCropped, children }) {
+export default function ImageForm({ id, title, description, formAction, disabled, coverImageCropped, setCoverImageCropped, backgroundImageCropped, setBackgroundImageCropped, children }) {
 	const handleChange = (event, setImageState) => {
 		if (event.target.files && event.target.files.length > 0) {
 			const reader = new FileReader();
@@ -14,25 +14,26 @@ export default function ImageForm({ id, title, description, formHandler, disable
 		}
 	};
 
-	const [coverImage, setCoverImage] = useState();
-	const [backgroundImage, setBackgroundImage] = useState();
-
 	const [modalIsOpen, setModalIsOpen] = useState(false);
+	const [modalContent, setModalContent] = useState('');
 
 	const closeModal = () => {
 		setModalIsOpen(false);
 	};
 
-	const [modalContent, setModalContent] = useState('');
+	const [coverImage, setCoverImage] = useState();
+	const [backgroundImage, setBackgroundImage] = useState();
 
 	const handleCover = (event) => {
 		handleChange(event, setCoverImage);
+		setCoverError();
 		setModalContent('cover');
 		setModalIsOpen(true);
 	};
 
 	const handleBackground = (event) => {
 		handleChange(event, setBackgroundImage);
+		setBackgroundError();
 		setModalContent('background');
 		setModalIsOpen(true);
 	};
@@ -53,12 +54,44 @@ export default function ImageForm({ id, title, description, formHandler, disable
 		}
 	};
 
+	const [coverError, setCoverError] = useState();
+	const [backgroundError, setBackgroundError] = useState();
+	const [titleError, setTitleError] = useState();
+	const [descriptionError, setDescriptionError] = useState();
+
+	const handleForm = async (event) => {
+		event.preventDefault();
+
+		const formData = new FormData(event.target);
+		const formJson = Object.fromEntries(formData.entries());
+
+		coverImageCropped ? '' : setCoverError('Requis');
+		backgroundImageCropped ? '' : setBackgroundError('Requis');
+		formJson.title ? '' : setTitleError('Requis');
+		formJson.description ? '' : setDescriptionError('Requis');
+
+		if (!coverImageCropped || !backgroundImageCropped || !formJson.title || !formJson.description) return;
+
+		formAction(event);
+	};
+
+	const handleTitleError = () => {
+		setTitleError();
+	};
+
+	const handleDescriptionError = () => {
+		setDescriptionError();
+	};
+
 	return (
 		<>
 			<div className='bg-white shadow sm:rounded-lg sm:p-6'>
-				<form onSubmit={formHandler} className='flex gap-6' id={id}>
+				<form onSubmit={handleForm} className='flex gap-6' id={id}>
 					<div>
-						<label className='block font-medium text-sm text-gray-700'>Cover</label>
+						<label className='flex justify-between font-medium text-sm'>
+							<span className='text-gray-700'>Cover</span>
+							<span className='text-red-600'>{coverError}</span>
+						</label>
 						<div className={'relative flex items-center justify-center rounded-md mt-1 border border-gray-300 ' + (disabled ? 'bg-zinc-200' : '')}>
 							<div className='z-0 h-48 w-36 m-2 '>{coverImageCropped && <img src={handleCoverImageCropped()} className='w-full' />}</div>
 							{!disabled && (
@@ -76,7 +109,10 @@ export default function ImageForm({ id, title, description, formHandler, disable
 					</div>
 
 					<div>
-						<label className='block font-medium text-sm text-gray-700'>Background</label>
+						<label className='flex justify-between font-medium text-sm'>
+							<span className='text-gray-700'>Background</span>
+							<span className='text-red-600'>{backgroundError}</span>
+						</label>
 						<div className={'relative flex items-center justify-center rounded-md mt-1 border border-gray-300 ' + (disabled ? 'bg-zinc-200' : '')}>
 							<div className='z-0 h-48 w-96 m-2'>{backgroundImageCropped && <img src={handleBackgroundImageCropped()} className='w-full' />}</div>
 							{!disabled && (
@@ -95,9 +131,11 @@ export default function ImageForm({ id, title, description, formHandler, disable
 
 					<div className='flex flex-col grow'>
 						<div>
-							<label htmlFor={id + '_title'} className='block font-medium text-sm text-gray-700'>
-								Titre
+							<label htmlFor={id + '_title'} className='flex justify-between font-medium text-sm '>
+								<span className='text-gray-700'>Title</span>
+								<span className='text-red-600'>{titleError}</span>
 							</label>
+
 							<input
 								type='text'
 								name='title'
@@ -106,12 +144,14 @@ export default function ImageForm({ id, title, description, formHandler, disable
 								className={'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full ' + (disabled ? 'bg-zinc-200' : '')}
 								defaultValue={title}
 								disabled={disabled}
+								onChange={handleTitleError}
 							/>
 						</div>
 
 						<div className='mt-1 flex flex-col h-full'>
-							<label htmlFor={id + '_description'} className='block font-medium text-sm text-gray-700'>
-								Description
+							<label htmlFor={id + '_description'} className='flex justify-between font-medium text-sm'>
+								<span className='text-gray-700'>Description</span>
+								<span className='text-red-600'>{descriptionError}</span>
 							</label>
 							<textarea
 								name='description'
@@ -119,6 +159,7 @@ export default function ImageForm({ id, title, description, formHandler, disable
 								className={'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full h-full resize-none ' + (disabled ? 'bg-zinc-200' : '')}
 								defaultValue={description}
 								disabled={disabled}
+								onChange={handleDescriptionError}
 							/>
 						</div>
 					</div>

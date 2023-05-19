@@ -14,8 +14,6 @@ export default function VideoAdd({ stateChanger }) {
 	};
 
 	const storeVideo = async (event) => {
-		event.preventDefault();
-
 		if (formSubmit) return;
 		setFormSubmit(true);
 
@@ -33,7 +31,7 @@ export default function VideoAdd({ stateChanger }) {
 
 	return (
 		<>
-			<VideoForm id={'upload'} formHandler={storeVideo} disabled={false}>
+			<VideoForm id={'upload'} formAction={storeVideo} disabled={false}>
 				<button
 					type='submit'
 					disabled={formSubmit}

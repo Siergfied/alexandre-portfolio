@@ -1,25 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-import { auth, db } from '../firebase.js';
-import { onAuthStateChanged } from 'firebase/auth';
+import { db } from '../firebase.js';
 import { collection, getDocs } from 'firebase/firestore';
 
 import VideoAdd from '../components/VideoAdd.jsx';
 import VideoUpdateAndDelete from '../components/VideoUpdateAndDelete.jsx';
 
+//TODO add field validation and error message
+
 export default function VideoManage() {
-	const navigate = useNavigate();
-
-	useEffect(() => {
-		onAuthStateChanged(auth, (user) => {
-			if (user) {
-			} else {
-				navigate('admin');
-			}
-		});
-	}, []);
-
 	const [data, setData] = useState([]);
 	const [dataChanged, setDataChanged] = useState(false);
 

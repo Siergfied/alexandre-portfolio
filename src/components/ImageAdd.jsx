@@ -22,29 +22,20 @@ export default function ImageAdd({ stateChanger }) {
 	};
 
 	const storeImage = async (event) => {
-		event.preventDefault();
-
 		if (formSubmit) return;
+
 		setFormSubmit(true);
 
 		const formData = new FormData(event.target);
 		const formJson = Object.fromEntries(formData.entries());
-
 		formJson.id = Date.now().toString();
+		formJson.cover = await storeImageFile(coverImage.file, formJson.id + '_cover');
+		formJson.background = await storeImageFile(backgroundImage.file, formJson.id + '_background');
 
-		if (coverImage && backgroundImage) {
-			let coverUrl = await storeImageFile(coverImage.file, formJson.id + '_cover');
-			let backgroundUrl = await storeImageFile(backgroundImage.file, formJson.id + '_background');
+		await setDoc(doc(db, 'images', formJson.id), formJson);
 
-			formJson.cover = coverUrl;
-			formJson.background = backgroundUrl;
-
-			await setDoc(doc(db, 'images', formJson.id), formJson);
-
-			clearForm();
-			stateChanger();
-		}
-
+		clearForm();
+		stateChanger();
 		setFormSubmit(false);
 	};
 
@@ -52,7 +43,7 @@ export default function ImageAdd({ stateChanger }) {
 		<>
 			<ImageForm
 				id={'upload'}
-				formHandler={storeImage}
+				formAction={storeImage}
 				disabled={false}
 				coverImageCropped={coverImage}
 				setCoverImageCropped={setCoverImage}

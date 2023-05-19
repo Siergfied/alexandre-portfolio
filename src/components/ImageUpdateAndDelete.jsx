@@ -21,8 +21,6 @@ export default function ImageUpdateAndDelete({ id, cover, background, title, des
 	};
 
 	const updateImage = async (event) => {
-		event.preventDefault();
-
 		const formData = new FormData(event.target);
 		const formJson = Object.fromEntries(formData.entries());
 
@@ -70,7 +68,7 @@ export default function ImageUpdateAndDelete({ id, cover, background, title, des
 				id={id}
 				title={title}
 				description={description}
-				formHandler={updateImage}
+				formAction={updateImage}
 				disabled={disabledForm}
 				coverImageCropped={coverImage}
 				setCoverImageCropped={setCoverImage}

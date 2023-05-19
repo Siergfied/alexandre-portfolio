@@ -9,8 +9,6 @@ export default function VideoUpdateAndDelete({ id, url, title, description, stat
 	const [disabledForm, setDisabledForm] = useState(true);
 
 	const updateVideo = async (event) => {
-		event.preventDefault();
-
 		const formData = new FormData(event.target);
 		const formJson = Object.fromEntries(formData.entries());
 
@@ -43,7 +41,7 @@ export default function VideoUpdateAndDelete({ id, url, title, description, stat
 	};
 	return (
 		<>
-			<VideoForm formHandler={updateVideo} disabled={disabledForm} id={id} url={url} title={title} description={description}>
+			<VideoForm formAction={updateVideo} disabled={disabledForm} id={id} url={url} title={title} description={description}>
 				{disabledForm && !showDelete && (
 					<>
 						<button

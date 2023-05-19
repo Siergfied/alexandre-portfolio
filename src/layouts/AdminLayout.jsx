@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 
-import { getAuth, signOut } from 'firebase/auth';
+import { auth } from '../firebase.js';
+import { signOut } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default function AdminLayout() {
 	const navigate = useNavigate();
 
+	useEffect(() => {
+		onAuthStateChanged(auth, (user) => {
+			if (user) {
+			} else {
+				navigate('admin');
+			}
+		});
+	}, []);
+
 	const handleSignOut = async () => {
-		const auth = getAuth();
 		signOut(auth)
 			.then(() => {
-				console.log('sign out success');
 				navigate('/');
 			})
 			.catch((error) => {
