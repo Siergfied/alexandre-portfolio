@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../firebase.js';
 import { collection, getDocs } from 'firebase/firestore';
 
+import Carousel from '../components/Carousel.jsx';
+
 export default function VideoDisplay() {
 	const [data, setData] = useState([]);
 
@@ -25,18 +27,23 @@ export default function VideoDisplay() {
 		fetchData();
 	}, []);
 
+	const [carouselIndex, setCarouselIndex] = useState(0);
+
 	return (
-		<div>
-			VideoDisplay
-			<ul>
-				{data.map(({ id, url, title, description }) => (
-					<li key={id} className='mt-6'>
-						<p>{url}</p>
-						<p>{title}</p>
-						<p>{description}</p>
-					</li>
-				))}
-			</ul>
-		</div>
+		<>
+			<p>Video Display</p>
+
+			<div className='mt-6'>
+				{data[carouselIndex] && (
+					<Carousel array={data} carouselIndex={carouselIndex} setCarouselIndex={setCarouselIndex}>
+						<>
+							<p>{data[carouselIndex].url}</p>
+							<p>{data[carouselIndex].title}</p>
+							<p>{data[carouselIndex].description}</p>
+						</>
+					</Carousel>
+				)}
+			</div>
+		</>
 	);
 }

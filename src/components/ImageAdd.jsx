@@ -15,8 +15,8 @@ export default function ImageAdd({ stateChanger }) {
 	const [backgroundImage, setBackgroundImage] = useState();
 
 	const clearForm = () => {
-		document.querySelectorAll('input').forEach((input) => (input.value = ''));
-		document.querySelectorAll('textarea').forEach((input) => (input.value = ''));
+		document.querySelector('#upload_title').value = '';
+		document.querySelector('#upload_description').value = '';
 		setCoverImage();
 		setBackgroundImage();
 	};

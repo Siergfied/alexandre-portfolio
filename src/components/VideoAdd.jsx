@@ -9,8 +9,9 @@ export default function VideoAdd({ stateChanger }) {
 	const [formSubmit, setFormSubmit] = useState(false);
 
 	const clearForm = () => {
-		document.querySelectorAll('input').forEach((input) => (input.value = ''));
-		document.querySelectorAll('textarea').forEach((input) => (input.value = ''));
+		document.querySelector('#upload_url').value = '';
+		document.querySelector('#upload_title').value = '';
+		document.querySelector('#upload_description').value = '';
 	};
 
 	const storeVideo = async (event) => {
