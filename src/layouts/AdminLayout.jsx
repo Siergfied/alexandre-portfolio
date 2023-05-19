@@ -12,7 +12,7 @@ export default function AdminLayout() {
 		onAuthStateChanged(auth, (user) => {
 			if (user) {
 			} else {
-				navigate('admin');
+				navigate('');
 			}
 		});
 	}, []);
