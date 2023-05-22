@@ -1,25 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-
-import './index.css';
-
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 
-import AdminLayout from './layouts/AdminLayout.jsx';
+import './index.css';
+import 'remixicon/fonts/remixicon.css';
+
+//Public
 import PublicLayout from './layouts/PublicLayout.jsx';
-
-import Login from './pages/Login';
-
 import HomeDisplay from './pages/HomeDisplay.jsx';
-import HomeManage from './pages/HomeManage.jsx';
-
 import ImageDisplay from './pages/ImageDisplay.jsx';
-import ImageManage from './pages/ImageManage.jsx';
-
 import VideoDisplay from './pages/VideoDisplay.jsx';
-import VideoManage from './pages/VideoManage.jsx';
+import GameDisplay from './pages/GameDisplay';
 
+//Admin
+import AdminLayout from './layouts/AdminLayout.jsx';
+import HomeManage from './pages/HomeManage.jsx';
+import ImageManage from './pages/ImageManage.jsx';
+import VideoManage from './pages/VideoManage.jsx';
 import Test from './pages/Test.jsx';
+
+//Global
+import Login from './pages/Login';
 import Error from './pages/Error';
 
 const router = createBrowserRouter(
@@ -43,6 +44,7 @@ const router = createBrowserRouter(
 				<Route path='/' element={<HomeDisplay />} />
 				<Route path='/image' element={<ImageDisplay />} />
 				<Route path='/video' element={<VideoDisplay />} />
+				<Route path='/game' element={<GameDisplay />} />
 				<Route path='*' element={<Error />} />
 			</Route>
 		</Route>

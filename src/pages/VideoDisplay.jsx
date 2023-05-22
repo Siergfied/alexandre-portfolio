@@ -29,21 +29,29 @@ export default function VideoDisplay() {
 
 	const [carouselIndex, setCarouselIndex] = useState(0);
 
+	const video = document.querySelector('.video-stream html5-main-video');
+	console.log(video);
+
 	return (
 		<>
-			<p>Video Display</p>
-
-			<div className='mt-6'>
-				{data[carouselIndex] && (
-					<Carousel array={data} carouselIndex={carouselIndex} setCarouselIndex={setCarouselIndex}>
-						<>
+			{data[carouselIndex] && (
+				<Carousel array={data} carouselIndex={carouselIndex} setCarouselIndex={setCarouselIndex}>
+					<div className='border-4 border-red-600 flex flex-row h-full'>
+						<iframe
+							className='h-4/5 aspect-video'
+							src={'https://www.youtube.com/embed/' + data[carouselIndex].url.split('=')[1]}
+							title='YouTube video player'
+							allow='accelerometer; clipboard-write; encrypted-media; gyroscope; web-share'
+						></iframe>
+						<div>
 							<p>{data[carouselIndex].url}</p>
 							<p>{data[carouselIndex].title}</p>
 							<p>{data[carouselIndex].description}</p>
-						</>
-					</Carousel>
-				)}
-			</div>
+							<p>{data[carouselIndex].url.split('=')[1]} </p>
+						</div>
+					</div>
+				</Carousel>
+			)}
 		</>
 	);
 }

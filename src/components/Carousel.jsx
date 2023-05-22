@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 export default function Carousel({ array, carouselIndex, setCarouselIndex, children }) {
 	const onNext = () => {
@@ -17,26 +17,51 @@ export default function Carousel({ array, carouselIndex, setCarouselIndex, child
 		}
 	};
 
+	const button = 'flex justify-center items-center gap-4 w-16 h-16 text-zinc-200 bg-zinc-800 hover:bg-zinc-600 active:bg-zinc-400 transition ease-in-out duration-250';
+
 	return (
 		<>
-			<div className='flex gap-6 w-full justify-around'>
-				<button
-					className='inline-flex items-center justify-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150'
-					onClick={onPrevious}
-				>
-					Previous
-				</button>
-				<p>Carousel Index : {carouselIndex} </p>
-				<p>Array length : {array.length}</p>
-				<button
-					className='inline-flex items-center justify-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150'
-					onClick={onNext}
-				>
-					Next
-				</button>
-			</div>
+			{children}
 
-			<div className='test'>{children}</div>
+			<>
+				<div className='absolute pl-4 flex h-full items-center left-0'>
+					<button className={button} onClick={onPrevious}>
+						<i className='ri-arrow-left-s-line ri-2x'></i>
+					</button>
+				</div>
+
+				<div className='absolute pr-4 flex h-full items-center right-0'>
+					<button className={button} onClick={onNext}>
+						<i className='ri-arrow-right-s-line ri-2x'></i>
+					</button>
+				</div>
+			</>
 		</>
 	);
 }
+
+/*
+const button = 'flex justify-center items-center gap-4 w-40 text-zinc-200 bg-zinc-800 hover:bg-zinc-600 active:bg-zinc-400 transition ease-in-out duration-250';
+
+	return (
+		<>
+			{children}
+
+			<div className='absolute flex gap-8 w-full h-12 bottom-12 justify-end pr-24'>
+				<button className={button} onClick={onPrevious}>
+					<i className='ri-arrow-left-fill'></i>
+					<span>Précédent</span>
+				</button>
+
+				<span className='flex justify-center items-center gap-4 w-20 text-zinc-200 bg-zinc-800'>
+					{carouselIndex + 1} / {array.length}
+				</span>
+
+				<button className={button} onClick={onNext}>
+					<span>Suivant</span>
+					<i className='ri-arrow-right-fill '></i>
+				</button>
+			</div>
+		</>
+	);
+				*/
