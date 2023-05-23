@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../firebase.js';
 import { collection, getDocs } from 'firebase/firestore';
 
-import VideoAdd from '../components/VideoAdd.jsx';
-import VideoUpdateAndDelete from '../components/VideoUpdateAndDelete.jsx';
+import VideoAdd from '../fragments/VideoAdd.jsx';
+import VideoUpdateAndDelete from '../fragments/VideoUpdateAndDelete.jsx';
 
 //TODO add field validation and error message
 
@@ -37,15 +37,17 @@ export default function VideoManage() {
 
 	return (
 		<>
-			<VideoAdd stateChanger={handleDataChanged} />
+			<div className='px-24'>
+				<VideoAdd stateChanger={handleDataChanged} />
 
-			<ul>
-				{data.map(({ id, url, title, description }) => (
-					<li key={id} className='mt-6'>
-						<VideoUpdateAndDelete id={id} url={url} title={title} description={description} stateChanger={handleDataChanged} />
-					</li>
-				))}
-			</ul>
+				<ul>
+					{data.map(({ id, url, title, description }) => (
+						<li key={id} className='mt-6'>
+							<VideoUpdateAndDelete id={id} url={url} title={title} description={description} stateChanger={handleDataChanged} />
+						</li>
+					))}
+				</ul>
+			</div>
 		</>
 	);
 }

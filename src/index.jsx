@@ -22,6 +22,7 @@ import Test from './pages/Test.jsx';
 //Global
 import Login from './pages/Login';
 import Error from './pages/Error';
+import GameManage from './pages/GameManage';
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -29,13 +30,10 @@ const router = createBrowserRouter(
 			<Route path='/admin'>
 				<Route path='' element={<Login />} />
 				<Route element={<AdminLayout />}>
-					<Route path='test' element={<Test />} />
-					<Route path='home_display' element={<HomeDisplay />} />
 					<Route path='home_manage' element={<HomeManage />} />
-					<Route path='image_display' element={<ImageDisplay />} />
 					<Route path='image_manage' element={<ImageManage />} />
-					<Route path='video_display' element={<VideoDisplay />} />
 					<Route path='video_manage' element={<VideoManage />} />
+					<Route path='game_manage' element={<GameManage />} />
 					<Route path='*' element={<Error />} />
 				</Route>
 			</Route>

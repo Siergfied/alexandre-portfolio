@@ -1,28 +1,14 @@
 import React from 'react';
-import { Unity, useUnityContext } from 'react-unity-webgl';
-
-//TODO unload on page change, and add a loader
 
 export default function GameDisplay() {
-	const { unityProvider, unload } = useUnityContext({
-		loaderUrl: 'SpaceTest/Build/SpaceTest.loader.js',
-		dataUrl: 'SpaceTest/Build/SpaceTest.data',
-		frameworkUrl: 'SpaceTest/Build/SpaceTest.framework.js',
-		codeUrl: 'SpaceTest/Build/SpaceTest.wasm',
-		productName: 'SpaceTest',
-		productVersion: '1.0.0',
-		companyName: 'Alexandre Fourcoux',
-	});
-
-	async function handleClickBack() {
-		await unload();
-		// Ready to navigate to another page.
-	}
-
 	return (
-		<div>
-			<Unity unityProvider={unityProvider} style={{ width: 960, height: 600 }} />
-			<button onClick={handleClickBack}>Back</button>
+		<div className='flex h-full px-24 py-12 bg-gradient-to-b from-zinc-300 via-zinc-700 to-zinc-800'>
+			<div className='flex  border-8 border-red-600 w-fit h-full'>
+				<iframe src='https://i.simmer.io/@Siergfied/test' className='aspect-video h-full'></iframe>
+			</div>
 		</div>
 	);
 }
+
+/*
+style={{ width: 960, height: 600 }}*/
