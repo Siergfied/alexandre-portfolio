@@ -1,37 +1,48 @@
 import React, { useState } from 'react';
-
-import { db } from '../firebase.js';
+import { db, storage } from '../firebase.js';
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { ref, deleteObject } from '@firebase/storage';
 
-import VideoForm from '../components/VideoForm.jsx';
+import CategoryForm from '../components/CategoryForm.jsx';
 
-export default function VideoUpdateAndDelete({ id, url, title, description, stateChanger }) {
+import storeImageFile from '../functions/storeImageFile.js';
+
+export default function CategoryUpdateAndDelete({ id, title, icon, stateChanger }) {
+	const [iconImage, setIconImage] = useState(icon);
+
 	const [disabledForm, setDisabledForm] = useState(true);
 
-	const updateVideo = async (event) => {
+	const handleDisabledForm = () => {
+		setDisabledForm(!disabledForm);
+		setIconImage(icon);
+	};
+
+	const updateCategory = async (event) => {
 		const formData = new FormData(event.target);
 		const formJson = Object.fromEntries(formData.entries());
 
-		let newVideo = {
+		let newCategory = {
 			id: id,
-			url: formJson.url,
 			title: formJson.title,
-			description: formJson.description,
 		};
 
-		await updateDoc(doc(db, 'videos', id), newVideo);
+		if (formJson.icon.name) {
+			await deleteObject(ref(storage, icon));
+			let iconUrl = await storeImageFile(formJson.icon, 'icons', id);
+			newCategory.icon = iconUrl;
+		}
+
+		await updateDoc(doc(db, 'categories', newCategory.id), newCategory);
 
 		setDisabledForm(true);
 		stateChanger();
 	};
 
-	const deleteVideo = async () => {
-		await deleteDoc(doc(db, 'videos', id));
-		stateChanger();
-	};
+	const deleteCategory = async () => {
+		await deleteObject(ref(storage, icon));
+		await deleteDoc(doc(db, 'categories', id));
 
-	const handleDisabledForm = () => {
-		setDisabledForm(!disabledForm);
+		stateChanger();
 	};
 
 	const [showDelete, setShowDelete] = useState(false);
@@ -51,7 +62,7 @@ export default function VideoUpdateAndDelete({ id, url, title, description, stat
 
 	return (
 		<>
-			<VideoForm formAction={updateVideo} disabled={disabledForm} id={id} url={url} title={title} description={description}>
+			<CategoryForm id={id} title={title} formAction={updateCategory} disabled={disabledForm} icon={iconImage} setIcon={setIconImage}>
 				{disabledForm && !showDelete && (
 					<>
 						<button type='button' className={buttonStyleDefault} onClick={handleDisabledForm}>
@@ -66,7 +77,7 @@ export default function VideoUpdateAndDelete({ id, url, title, description, stat
 
 				{disabledForm && showDelete && (
 					<>
-						<button type='button' className={buttonStyleRed} onClick={deleteVideo}>
+						<button type='button' className={buttonStyleRed} onClick={deleteCategory}>
 							Supprimer
 						</button>
 
@@ -87,7 +98,7 @@ export default function VideoUpdateAndDelete({ id, url, title, description, stat
 						</button>
 					</>
 				)}
-			</VideoForm>
+			</CategoryForm>
 		</>
 	);
 }

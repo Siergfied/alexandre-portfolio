@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import { db, storage } from '../firebase.js';
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { ref, deleteObject } from '@firebase/storage';
@@ -32,13 +31,13 @@ export default function ImageUpdateAndDelete({ id, cover, background, title, des
 
 		if (coverImage.file) {
 			await deleteObject(ref(storage, cover));
-			let coverUrl = await storeImageFile(coverImage.file, id + '_cover');
+			let coverUrl = await storeImageFile(coverImage.file, 'images', id + '_cover');
 			newImage.cover = coverUrl;
 		}
 
 		if (backgroundImage.file) {
 			await deleteObject(ref(storage, background));
-			let backgroundUrl = await storeImageFile(backgroundImage.file, id + '_background');
+			let backgroundUrl = await storeImageFile(backgroundImage.file, 'images', id + '_background');
 			newImage.background = backgroundUrl;
 		}
 
@@ -65,7 +64,7 @@ export default function ImageUpdateAndDelete({ id, cover, background, title, des
 	const buttonStyle =
 		'inline-flex items-center justify-center px-4 py-2 w-28 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest  focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150 ';
 
-	const buttonStyleDefault = buttonStyle + 'bg-gray-800 hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:ring-indigo-500';
+	const buttonStyleDefault = buttonStyle + 'bg-zinc-800 hover:bg-zinc-700 focus:bg-zinc-700 active:bg-zinc-900 focus:ring-indigo-500';
 
 	const buttonStyleRed = buttonStyle + 'bg-red-600 hover:bg-red-500 active:bg-red-700 focus:ring-red-500';
 

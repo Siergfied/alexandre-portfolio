@@ -34,13 +34,13 @@ export default function VideoForm({ id, url, title, description, formAction, dis
 
 	return (
 		<>
-			<div className='bg-white shadow sm:rounded-lg sm:p-6'>
+			<div className='bg-zinc-100 shadow sm:rounded-lg sm:p-6'>
 				<form onSubmit={handleForm} className='flex flex-col' id={id}>
 					<div className='flex w-full gap-6'>
 						<div className='flex flex-col w-1/2 gap-2'>
 							<div>
 								<label htmlFor={id + '_url'} className='flex justify-between font-medium text-sm'>
-									<span className='text-gray-700'>URL</span>
+									<span className='text-zinc-700'>URL</span>
 									<span className='text-red-600'>{urlError}</span>
 								</label>
 								<input
@@ -48,7 +48,7 @@ export default function VideoForm({ id, url, title, description, formAction, dis
 									name='url'
 									id={id + '_url'}
 									autoComplete='off'
-									className={'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full ' + (disabled ? 'bg-zinc-200' : '')}
+									className={'border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full ' + (disabled ? 'bg-zinc-400' : 'bg-zinc-100')}
 									defaultValue={url}
 									disabled={disabled}
 									onChange={handleUrlError}
@@ -57,7 +57,7 @@ export default function VideoForm({ id, url, title, description, formAction, dis
 
 							<div>
 								<label htmlFor={id + '_title'} className='flex justify-between font-medium text-sm'>
-									<span className='text-gray-700'>Titre</span>
+									<span className='text-zinc-700'>Titre</span>
 									<span className='text-red-600'>{titleError}</span>
 								</label>
 								<input
@@ -65,7 +65,7 @@ export default function VideoForm({ id, url, title, description, formAction, dis
 									name='title'
 									id={id + '_title'}
 									autoComplete='off'
-									className={'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full ' + (disabled ? 'bg-zinc-200' : '')}
+									className={'border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full ' + (disabled ? 'bg-zinc-400' : 'bg-zinc-100')}
 									defaultValue={title}
 									disabled={disabled}
 									onChange={handleTitleError}
@@ -75,13 +75,15 @@ export default function VideoForm({ id, url, title, description, formAction, dis
 
 						<div className='flex flex-col w-full'>
 							<label htmlFor={id + '_description'} className='flex justify-between font-medium text-sm'>
-								<span className='text-gray-700'>Description</span>
+								<span className='text-zinc-700'>Description</span>
 								<span className='text-red-600'>{descriptionError}</span>
 							</label>
 							<textarea
 								name='description'
 								id={id + '_description'}
-								className={'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full h-full resize-none ' + (disabled ? 'bg-zinc-200' : '')}
+								className={
+									'border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full h-full resize-none ' + (disabled ? 'bg-zinc-400' : 'bg-zinc-100')
+								}
 								defaultValue={description}
 								disabled={disabled}
 								onChange={handleDescriptionError}

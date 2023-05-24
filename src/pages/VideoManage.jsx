@@ -9,44 +9,48 @@ import VideoUpdateAndDelete from '../fragments/VideoUpdateAndDelete.jsx';
 //TODO add field validation and error message
 
 export default function VideoManage() {
-	const [data, setData] = useState([]);
+	const [videoData, setVideoData] = useState([]);
 	const [dataChanged, setDataChanged] = useState(false);
 
 	const handleDataChanged = () => {
 		setDataChanged(true);
 	};
 
-	const fetchData = async () => {
+	const fetchVideoData = async () => {
 		const data = await getDocs(collection(db, 'videos'));
-		let imagesArray = [];
 
+		let videoArray = [];
 		data.forEach((doc) => {
-			let imageObject = {};
-			imageObject.id = doc.id;
-			Object.assign(imageObject, doc.data());
-			imagesArray.unshift({ ...imageObject });
+			videoArray.unshift({ ...doc.data() });
 		});
-
-		setData(imagesArray);
+		setVideoData(videoArray);
 	};
 
 	useEffect(() => {
-		fetchData();
+		fetchVideoData();
 		setDataChanged(false);
 	}, [dataChanged]);
+
+	const h2Style = 'flex items-center whitespace-nowrap justify-between gap-4 py-4 px-4 font-medium text-zinc-200 before:block before:w-full before:border before:bg-zinc-200 after:block after:w-full after:border after:bg-zinc-200';
 
 	return (
 		<>
 			<div className='px-24'>
-				<VideoAdd stateChanger={handleDataChanged} />
+				<div>
+					<h2 className={h2Style}>Ajouter une vidéo</h2>
+					<VideoAdd stateChanger={handleDataChanged} />
+				</div>
 
-				<ul>
-					{data.map(({ id, url, title, description }) => (
-						<li key={id} className='mt-6'>
-							<VideoUpdateAndDelete id={id} url={url} title={title} description={description} stateChanger={handleDataChanged} />
-						</li>
-					))}
-				</ul>
+				<div className='mt-4'>
+					<h2 className={h2Style}>Modifier les vidéos</h2>
+					<ul className='flex flex-col w-full gap-6'>
+						{videoData.map(({ id, url, title, description }) => (
+							<li key={id}>
+								<VideoUpdateAndDelete id={id} url={url} title={title} description={description} stateChanger={handleDataChanged} />
+							</li>
+						))}
+					</ul>
+				</div>
 			</div>
 		</>
 	);

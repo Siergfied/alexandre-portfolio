@@ -41,13 +41,13 @@ export default function Login() {
 	};
 
 	return (
-		<div className='min-h-screen bg-gray-100'>
+		<div className='min-h-screen bg-zinc-800'>
 			<div className='mx-auto max-w-xl space-y-6 sm:px-6 lg:px-6 py-12'>
-				<div className='bg-white shadow sm:rounded-lg sm:p-6'>
+				<div className='bg-zinc-100 shadow sm:rounded-lg sm:p-6'>
 					<form onSubmit={handleLogin} className=''>
 						<div className='mt-4'>
 							<label className='flex justify-between font-medium text-sm'>
-								<span className='text-gray-700'>Email</span>
+								<span className='text-zinc-700'>Email</span>
 								<span className='text-red-600'>{emailError}</span>
 							</label>
 							<input
@@ -55,7 +55,7 @@ export default function Login() {
 								name='email'
 								htmlFor='email'
 								autoComplete='off'
-								className='border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full'
+								className='border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full'
 								onChange={handleEmail}
 							/>
 						</div>
@@ -64,7 +64,7 @@ export default function Login() {
 
 						<div className='mt-4'>
 							<label className='flex justify-between font-medium text-sm'>
-								<span className='text-gray-700'>Password</span>
+								<span className='text-zinc-700'>Password</span>
 								<span className='text-red-600'>{passwordError}</span>
 							</label>
 							<input
@@ -72,7 +72,7 @@ export default function Login() {
 								name='password'
 								htmlFor='password'
 								autoComplete='off'
-								className='border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full'
+								className='border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full'
 								onChange={handlePassword}
 							/>
 						</div>
@@ -80,7 +80,7 @@ export default function Login() {
 						<div className='mt-4 flex justify-end'>
 							<button
 								type='submit'
-								className='inline-flex items-center justify-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150'
+								className='inline-flex items-center justify-center px-4 py-2 bg-zinc-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-zinc-700 focus:bg-zinc-700 active:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150'
 							>
 								Connexion
 							</button>

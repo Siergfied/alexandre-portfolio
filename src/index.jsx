@@ -17,7 +17,6 @@ import AdminLayout from './layouts/AdminLayout.jsx';
 import HomeManage from './pages/HomeManage.jsx';
 import ImageManage from './pages/ImageManage.jsx';
 import VideoManage from './pages/VideoManage.jsx';
-import Test from './pages/Test.jsx';
 
 //Global
 import Login from './pages/Login';
