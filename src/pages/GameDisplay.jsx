@@ -28,6 +28,7 @@ export default function GameDisplay() {
 	};
 
 	useEffect(() => {
+		document.title = 'Game - AF';
 		fetchCategoryData();
 		fetchGameData();
 	}, []);

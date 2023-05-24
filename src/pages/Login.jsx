@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { auth } from '../firebase.js';
@@ -39,6 +39,10 @@ export default function Login() {
 	const handlePassword = () => {
 		setPasswordError('');
 	};
+
+	useEffect(() => {
+		document.title = 'Admin - AF';
+	}, []);
 
 	return (
 		<div className='min-h-screen bg-zinc-800'>

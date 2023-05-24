@@ -20,6 +20,7 @@ export default function ImageDisplay() {
 
 	useEffect(() => {
 		fetchImageData();
+		document.title = 'Image - AF';
 	}, []);
 
 	const [carouselIndex, setCarouselIndex] = useState(0);

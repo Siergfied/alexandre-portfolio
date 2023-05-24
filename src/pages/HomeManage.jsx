@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-export default function HomeManage() {
-	return <div>HomeManage</div>;
+export default function HomeDisplay() {
+	useEffect(() => {
+		document.title = 'Home - Admin - AF';
+	}, []);
+
+	return <>HomeManage</>;
 }

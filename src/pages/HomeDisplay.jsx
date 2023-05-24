@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function HomeDisplay() {
-	return <div>HomeDisplay</div>;
+	useEffect(() => {
+		document.title = 'Alexandre Fourcoux';
+	}, []);
+
+	return <>HomeDisplay</>;
 }

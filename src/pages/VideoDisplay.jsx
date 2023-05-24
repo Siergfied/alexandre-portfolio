@@ -20,6 +20,7 @@ export default function VideoDisplay() {
 
 	useEffect(() => {
 		fetchVideoData();
+		document.title = 'Video - AF';
 	}, []);
 
 	const [carouselIndex, setCarouselIndex] = useState(0);

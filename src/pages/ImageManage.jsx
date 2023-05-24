@@ -29,6 +29,7 @@ export default function ImageManage() {
 	useEffect(() => {
 		fetchImageData();
 		setDataChanged(false);
+		document.title = 'Image - Admin - AF';
 	}, [dataChanged]);
 
 	const h2Style = 'flex items-center whitespace-nowrap justify-between gap-4 py-4 px-4 font-medium text-zinc-200 before:block before:w-full before:border before:bg-zinc-200 after:block after:w-full after:border after:bg-zinc-200';
