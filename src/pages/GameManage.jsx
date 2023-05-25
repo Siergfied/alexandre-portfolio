@@ -4,7 +4,6 @@ import { collection, getDocs } from 'firebase/firestore';
 
 import CategoryAdd from '../fragments/CategoryAdd.jsx';
 import CategoryUpdateAndDelete from '../fragments/CategoryUpdateAndDelete.jsx';
-
 import GameUpdate from '../fragments/GameUpdate.jsx';
 
 export default function GameManage() {

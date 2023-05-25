@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-
 import { db } from '../firebase.js';
 import { collection, getDocs } from 'firebase/firestore';
 
 import VideoAdd from '../fragments/VideoAdd.jsx';
 import VideoUpdateAndDelete from '../fragments/VideoUpdateAndDelete.jsx';
-
-//TODO add field validation and error message
 
 export default function VideoManage() {
 	const [videoData, setVideoData] = useState([]);

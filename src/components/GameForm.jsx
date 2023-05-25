@@ -106,10 +106,7 @@ export default function GameForm({ id, url, title, description, category, catego
 													name='category'
 													defaultChecked={category.includes(id)}
 													disabled={disabled}
-													className={
-														'rounded border-zinc-400 shadow-sm focus:ring-indigo-500 scale-110 ' +
-														(disabled ? 'text-zinc-400 bg-zinc-200' : 'text-zinc-700')
-													}
+													className={'rounded border-zinc-400 shadow-sm focus:ring-indigo-500 scale-110 text-zinc-700 ' + (disabled ? 'bg-zinc-200' : '')}
 												/>
 												<label htmlFor={id + '_category'} className='ml-2 '>
 													{title}

@@ -1,12 +1,10 @@
-import React, { useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-
+import React, { useCallback, useEffect } from 'react';
+import { NavLink, useBeforeUnload, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase.js';
 import { signOut } from 'firebase/auth';
 import { onAuthStateChanged } from 'firebase/auth';
-import GlobalLayout from './GlobalLayout.jsx';
 
-//TODO add signout on tab close event
+import GlobalLayout from './GlobalLayout.jsx';
 
 export default function AdminLayout() {
 	const navigate = useNavigate();
@@ -29,6 +27,12 @@ export default function AdminLayout() {
 			}
 		});
 	}, []);
+
+	useBeforeUnload(
+		useCallback(() => {
+			signOut(auth);
+		})
+	);
 
 	const style = 'inline-flex items-center px-1 pt-1 border-b-4 font-medium leading-5 uppercase focus:outline-none transition duration-150 ease-in-out ';
 
