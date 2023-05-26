@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 
-export default function CategoryForm({ id, title, icon, setIcon, formAction, disabled, children }) {
+export default function IconForm({ id, title, setTitle, icon, setIcon, formAction, disabled, children }) {
 	const [titleError, setTitleError] = useState();
 	const [iconError, setIconError] = useState();
 
-	const handleTitle = () => {
+	const handleTitle = (event) => {
+		setTitle && setTitle(event.target.value);
 		setTitleError();
 	};
 
@@ -43,24 +44,24 @@ export default function CategoryForm({ id, title, icon, setIcon, formAction, dis
 							<span className='text-red-600'>{iconError}</span>
 						</label>
 						<div className={'relative flex items-center justify-center rounded-md mt-1 border border-zinc-400 ' + (disabled ? 'bg-zinc-400' : 'bg-zinc-100')}>
-							<div className='z-0 h-32 w-32 m-2 bg-zinc-800'>{icon && <img src={icon} className='w-full h-full' />}</div>
+							<div className='z-0 h-20 w-20 m-2 bg-zinc-800'>{icon && <img src={icon} className='w-full h-full' />}</div>
 							{!disabled && (
 								<label
-									htmlFor={id + '_icon'}
-									className='z-10 absolute inline-flex items-center justify-center px-4 py-2 bg-zinc-400 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-zinc-300 focus:bg-zinc-300 active:bg-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 cursor-pointer w-28'
+									htmlFor={'icon_' + id}
+									className='z-10 absolute inline-flex items-center justify-center px-2 py-2 bg-zinc-600 border border-transparent rounded-md font-semibold text-[0.5rem] text-white uppercase tracking-widest hover:bg-zinc-300 focus:bg-zinc-300 active:bg-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 cursor-pointer w-16'
 								>
 									{icon && 'Modifier'}
-									{!icon && 'Sélectionner'}
+									{!icon && 'Parcourir'}
 								</label>
 							)}
 
-							<input type='file' name='icon' id={id + '_icon'} onChange={handleIcon} disabled={disabled} className='hidden' />
+							<input type='file' accept='.svg' name='icon' id={'icon_' + id} onChange={handleIcon} disabled={disabled} className='hidden' />
 						</div>
 					</div>
 
 					<div className='flex flex-col w-full'>
 						<div>
-							<label htmlFor={id + '_title'} className='flex justify-between font-medium text-sm '>
+							<label htmlFor={'title_' + id} className='flex justify-between font-medium text-sm '>
 								<span className='text-zinc-700'>Titre</span>
 								<span className='text-red-600'>{titleError}</span>
 							</label>
@@ -68,10 +69,10 @@ export default function CategoryForm({ id, title, icon, setIcon, formAction, dis
 							<input
 								type='text'
 								name='title'
-								id={id + '_title'}
+								id={'title_' + id}
 								autoComplete='off'
 								className={'border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full ' + (disabled ? 'bg-zinc-400' : 'bg-zinc-100')}
-								defaultValue={title}
+								value={title}
 								disabled={disabled}
 								onChange={handleTitle}
 							/>

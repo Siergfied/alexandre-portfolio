@@ -33,7 +33,7 @@ export default function ImageManage() {
 
 	return (
 		<>
-			<div className='px-24'>
+			<div className='px-4'>
 				<div>
 					<h2 className={h2Style}>Ajouter une image</h2>
 					<ImageAdd stateChanger={handleDataChanged} />

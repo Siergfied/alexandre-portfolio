@@ -33,7 +33,7 @@ export default function VideoManage() {
 
 	return (
 		<>
-			<div className='px-24'>
+			<div className='px-4'>
 				<div>
 					<h2 className={h2Style}>Ajouter une vidéo</h2>
 					<VideoAdd stateChanger={handleDataChanged} />

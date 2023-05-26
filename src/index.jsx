@@ -29,19 +29,19 @@ const router = createBrowserRouter(
 			<Route path='/admin'>
 				<Route path='' element={<Login />} />
 				<Route element={<AdminLayout />}>
-					<Route path='home_manage' element={<HomeManage />} />
-					<Route path='image_manage' element={<ImageManage />} />
-					<Route path='video_manage' element={<VideoManage />} />
-					<Route path='game_manage' element={<GameManage />} />
+					<Route path='presentation' element={<HomeManage />} />
+					<Route path='realisations' element={<ImageManage />} />
+					<Route path='videos' element={<VideoManage />} />
+					<Route path='demo' element={<GameManage />} />
 					<Route path='*' element={<Error />} />
 				</Route>
 			</Route>
 
 			<Route element={<PublicLayout />}>
 				<Route path='/' element={<HomeDisplay />} />
-				<Route path='/image' element={<ImageDisplay />} />
-				<Route path='/video' element={<VideoDisplay />} />
-				<Route path='/game' element={<GameDisplay />} />
+				<Route path='/realisations' element={<ImageDisplay />} />
+				<Route path='/videos' element={<VideoDisplay />} />
+				<Route path='/demo' element={<GameDisplay />} />
 				<Route path='*' element={<Error />} />
 			</Route>
 		</Route>

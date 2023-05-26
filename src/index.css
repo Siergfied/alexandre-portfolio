@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.filterSVG {
+	filter: brightness(0) saturate(100%) invert(96%) sepia(8%) saturate(50%) hue-rotate(202deg) brightness(96%) contrast(90%);
+}

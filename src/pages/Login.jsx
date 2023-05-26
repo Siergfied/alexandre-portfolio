@@ -17,7 +17,7 @@ export default function Login() {
 
 		await signInWithEmailAndPassword(auth, formJson.email, formJson.password)
 			.then(() => {
-				navigate('home_manage');
+				navigate('presentation');
 			})
 			.catch((error) => {
 				switch (error.code) {

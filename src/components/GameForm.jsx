@@ -1,9 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export default function GameForm({ id, url, title, description, category, categoryList, formAction, disabled, children }) {
+export default function GameForm({ id, url, setUrl, title, setTitle, description, setDescription, category, categoryList, formAction, disabled, children }) {
 	const [urlError, setUrlError] = useState();
 	const [titleError, setTitleError] = useState();
 	const [descriptionError, setDescriptionError] = useState();
+
+	const handleUrl = (event) => {
+		setUrl && setUrl(event.target.value);
+		setUrlError();
+	};
+
+	const handleTitle = (event) => {
+		console.log('title', event.target.value);
+		setTitle && setTitle(event.target.value);
+		setTitleError();
+	};
+
+	const handleDescription = (event) => {
+		setDescription && setDescription(event.target.value);
+		setDescriptionError();
+	};
 
 	const handleForm = (event) => {
 		event.preventDefault();
@@ -18,18 +34,6 @@ export default function GameForm({ id, url, title, description, category, catego
 		if (!formJson.url || !formJson.title || !formJson.description) return;
 
 		formAction(event);
-	};
-
-	const handleUrlError = () => {
-		setUrlError();
-	};
-
-	const handleTitleError = () => {
-		setTitleError();
-	};
-
-	const handleDescriptionError = () => {
-		setDescriptionError();
 	};
 
 	return (
@@ -49,9 +53,9 @@ export default function GameForm({ id, url, title, description, category, catego
 									id={id + '_url'}
 									autoComplete='off'
 									className={'border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full ' + (disabled ? 'bg-zinc-400' : 'bg-zinc-100')}
-									defaultValue={url}
+									value={url}
 									disabled={disabled}
-									onChange={handleUrlError}
+									onChange={handleUrl}
 								/>
 							</div>
 
@@ -66,9 +70,9 @@ export default function GameForm({ id, url, title, description, category, catego
 									id={id + '_title'}
 									autoComplete='off'
 									className={'border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full ' + (disabled ? 'bg-zinc-400' : 'bg-zinc-100')}
-									defaultValue={title}
+									value={title}
 									disabled={disabled}
-									onChange={handleTitleError}
+									onChange={handleTitle}
 								/>
 							</div>
 
@@ -84,9 +88,9 @@ export default function GameForm({ id, url, title, description, category, catego
 										'border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full h-40 resize-none ' +
 										(disabled ? 'bg-zinc-400' : 'bg-zinc-100')
 									}
-									defaultValue={description}
+									value={description}
 									disabled={disabled}
-									onChange={handleDescriptionError}
+									onChange={handleDescription}
 								/>
 							</div>
 
@@ -101,10 +105,9 @@ export default function GameForm({ id, url, title, description, category, catego
 											<div key={id} className='flex items-center'>
 												<input
 													type='checkbox'
-													id={id + '_category'}
+													id={'category_' + id}
 													value={id}
 													name='category'
-													defaultChecked={category.includes(id)}
 													disabled={disabled}
 													className={'rounded border-zinc-400 shadow-sm focus:ring-indigo-500 scale-110 text-zinc-700 ' + (disabled ? 'bg-zinc-200' : '')}
 												/>

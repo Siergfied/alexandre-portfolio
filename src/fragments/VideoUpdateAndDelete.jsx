@@ -5,6 +5,10 @@ import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import VideoForm from '../components/VideoForm.jsx';
 
 export default function VideoUpdateAndDelete({ id, url, title, description, stateChanger }) {
+	const [urlVideo, setUrlVideo] = useState(url);
+	const [titleVideo, setTitleVideo] = useState(title);
+	const [descriptionVideo, setDescriptionVideo] = useState(description);
+
 	const [disabledForm, setDisabledForm] = useState(true);
 
 	const updateVideo = async (event) => {
@@ -30,6 +34,9 @@ export default function VideoUpdateAndDelete({ id, url, title, description, stat
 	};
 
 	const handleDisabledForm = () => {
+		setUrlVideo(url);
+		setTitleVideo(title);
+		setDescriptionVideo(description);
 		setDisabledForm(!disabledForm);
 	};
 
@@ -50,7 +57,7 @@ export default function VideoUpdateAndDelete({ id, url, title, description, stat
 
 	return (
 		<>
-			<VideoForm formAction={updateVideo} disabled={disabledForm} id={id} url={url} title={title} description={description}>
+			<VideoForm formAction={updateVideo} disabled={disabledForm} id={id} url={urlVideo} setUrl={setUrlVideo} title={titleVideo} setTitle={setTitleVideo} description={descriptionVideo} setDescription={setDescriptionVideo}>
 				{disabledForm && !showDelete && (
 					<>
 						<button type='button' className={buttonStyleDefault} onClick={handleDisabledForm}>

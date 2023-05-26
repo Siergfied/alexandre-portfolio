@@ -3,21 +3,15 @@ import { db, storage } from '../firebase.js';
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { ref, deleteObject } from '@firebase/storage';
 
-import CategoryForm from '../components/CategoryForm.jsx';
+import IconForm from '../components/IconForm.jsx';
 
 import storeImageFile from '../functions/storeImageFile.js';
 
-export default function CategoryUpdateAndDelete({ id, title, icon, stateChanger }) {
-	const [iconImage, setIconImage] = useState(icon);
+export default function IconUpdateAndDelete({ id, title, icon, stateChanger, name, folder }) {
+	const [titleCategory, setTitleCategory] = useState(title);
+	const [iconCategory, setIconCategory] = useState(icon);
 
-	const [disabledForm, setDisabledForm] = useState(true);
-
-	const handleDisabledForm = () => {
-		setDisabledForm(!disabledForm);
-		setIconImage(icon);
-	};
-
-	const updateCategory = async (event) => {
+	const updateIcon = async (event) => {
 		const formData = new FormData(event.target);
 		const formJson = Object.fromEntries(formData.entries());
 
@@ -28,21 +22,29 @@ export default function CategoryUpdateAndDelete({ id, title, icon, stateChanger 
 
 		if (formJson.icon.name) {
 			await deleteObject(ref(storage, icon));
-			let iconUrl = await storeImageFile(formJson.icon, 'icons', id);
+			let iconUrl = await storeImageFile(formJson.icon, folder, id);
 			newCategory.icon = iconUrl;
 		}
 
-		await updateDoc(doc(db, 'categories', newCategory.id), newCategory);
+		await updateDoc(doc(db, name, newCategory.id), newCategory);
 
 		setDisabledForm(true);
 		stateChanger();
 	};
 
-	const deleteCategory = async () => {
+	const deleteIcon = async () => {
 		await deleteObject(ref(storage, icon));
-		await deleteDoc(doc(db, 'categories', id));
+		await deleteDoc(doc(db, name, id));
 
 		stateChanger();
+	};
+
+	const [disabledForm, setDisabledForm] = useState(true);
+
+	const handleDisabledForm = () => {
+		setTitleCategory(title);
+		setIconCategory(icon);
+		setDisabledForm(!disabledForm);
 	};
 
 	const [showDelete, setShowDelete] = useState(false);
@@ -62,7 +64,7 @@ export default function CategoryUpdateAndDelete({ id, title, icon, stateChanger 
 
 	return (
 		<>
-			<CategoryForm id={id} title={title} formAction={updateCategory} disabled={disabledForm} icon={iconImage} setIcon={setIconImage}>
+			<IconForm id={id} title={titleCategory} setTitle={setTitleCategory} icon={iconCategory} setIcon={setIconCategory} formAction={updateIcon} disabled={disabledForm}>
 				{disabledForm && !showDelete && (
 					<>
 						<button type='button' className={buttonStyleDefault} onClick={handleDisabledForm}>
@@ -77,7 +79,7 @@ export default function CategoryUpdateAndDelete({ id, title, icon, stateChanger 
 
 				{disabledForm && showDelete && (
 					<>
-						<button type='button' className={buttonStyleRed} onClick={deleteCategory}>
+						<button type='button' className={buttonStyleRed} onClick={deleteIcon}>
 							Supprimer
 						</button>
 
@@ -98,7 +100,7 @@ export default function CategoryUpdateAndDelete({ id, title, icon, stateChanger 
 						</button>
 					</>
 				)}
-			</CategoryForm>
+			</IconForm>
 		</>
 	);
 }

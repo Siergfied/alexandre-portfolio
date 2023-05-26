@@ -5,6 +5,9 @@ import { doc, updateDoc } from 'firebase/firestore';
 import HomeForm from '../components/HomeForm.jsx';
 
 export default function HomeUpdate({ id, title, description, stateChanger }) {
+	const [titleHome, setTitleHome] = useState(title);
+	const [descriptionHome, setDescriptionHome] = useState(description);
+
 	const [disabledForm, setDisabledForm] = useState(true);
 
 	const updateHome = async (event) => {
@@ -24,8 +27,13 @@ export default function HomeUpdate({ id, title, description, stateChanger }) {
 	};
 
 	const handleDisabledForm = () => {
+		setTitleHome(title);
+		setDescriptionHome(description);
+		setTextAreaSize();
 		setDisabledForm(!disabledForm);
 	};
+
+	const [textAreaSize, setTextAreaSize] = useState();
 
 	const buttonStyle =
 		'inline-flex items-center justify-center px-4 py-2 w-28 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest  focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-250 ';
@@ -36,7 +44,7 @@ export default function HomeUpdate({ id, title, description, stateChanger }) {
 
 	return (
 		<>
-			<HomeForm formAction={updateHome} disabled={disabledForm} id={id} title={title} description={description}>
+			<HomeForm formAction={updateHome} disabled={disabledForm} id={id} title={titleHome} setTitle={setTitleHome} description={descriptionHome} setDescription={setDescriptionHome}>
 				{disabledForm && (
 					<>
 						<button type='button' className={buttonStyleDefault} onClick={handleDisabledForm}>

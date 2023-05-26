@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { db } from '../firebase.js';
 import { doc, updateDoc } from 'firebase/firestore';
 
 import GameForm from '../components/GameForm.jsx';
 
 export default function GameUpdate({ id, url, title, description, category, categoryList, stateChanger }) {
+	const [urlGame, setUrlGame] = useState(url);
+	const [titleGame, setTitleGame] = useState(title);
+	const [descriptionGame, setDescriptionGame] = useState(description);
+	const [categoryGame, setCategoryGame] = useState(category);
+
 	const [disabledForm, setDisabledForm] = useState(true);
 
 	const updateGame = async (event) => {
@@ -26,7 +31,21 @@ export default function GameUpdate({ id, url, title, description, category, cate
 		stateChanger();
 	};
 
+	const handleCategory = () => {
+		categoryList.forEach((element) => {
+			document.querySelector('#category_' + element.id).checked = category.includes(element.id);
+		});
+	};
+
+	useEffect(() => {
+		handleCategory();
+	}, []);
+
 	const handleDisabledForm = () => {
+		setUrlGame(url);
+		setTitleGame(title);
+		setDescriptionGame(description);
+		handleCategory();
 		setDisabledForm(!disabledForm);
 	};
 
@@ -39,7 +58,19 @@ export default function GameUpdate({ id, url, title, description, category, cate
 
 	return (
 		<>
-			<GameForm formAction={updateGame} disabled={disabledForm} id={id} url={url} title={title} description={description} category={category} categoryList={categoryList}>
+			<GameForm
+				formAction={updateGame}
+				disabled={disabledForm}
+				id={id}
+				url={urlGame}
+				setUrl={setUrlGame}
+				title={titleGame}
+				setTitle={setTitleGame}
+				description={descriptionGame}
+				setDescription={setDescriptionGame}
+				category={category}
+				categoryList={categoryList}
+			>
 				{disabledForm && (
 					<>
 						<button type='button' className={buttonStyleDefault} onClick={handleDisabledForm}>

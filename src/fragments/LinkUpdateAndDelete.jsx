@@ -3,60 +3,51 @@ import { db, storage } from '../firebase.js';
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { ref, deleteObject } from '@firebase/storage';
 
-import ImageForm from '../components/ImageForm.jsx';
+import LinkForm from '../components/LinkForm.jsx';
 
 import storeImageFile from '../functions/storeImageFile.js';
 
-export default function ImageUpdateAndDelete({ id, cover, background, title, description, stateChanger }) {
-	const [titleImage, setTitleImage] = useState(title);
-	const [descriptionImage, setDescriptionImage] = useState(description);
-	const [coverImage, setCoverImage] = useState(cover);
-	const [backgroundImage, setBackgroundImage] = useState(background);
+export default function LinkUpdateAndDelete({ id, icon, title, url, stateChanger, name, folder }) {
+	const [linkIcon, setLinkIcon] = useState(icon);
+	const [linkTitle, setLinkTitle] = useState(title);
+	const [linkUrl, setLinkUrl] = useState(url);
 
-	const [disabledForm, setDisabledForm] = useState(true);
-
-	const handleDisabledForm = () => {
-		setTitleImage(title);
-		setDescriptionImage(description);
-		setCoverImage(cover);
-		setBackgroundImage(background);
-		setDisabledForm(!disabledForm);
-	};
-
-	const updateImage = async (event) => {
+	const updateIcon = async (event) => {
 		const formData = new FormData(event.target);
 		const formJson = Object.fromEntries(formData.entries());
 
-		let newImage = {
+		let newCategory = {
 			id: id,
 			title: formJson.title,
-			description: formJson.description,
+			url: formJson.url,
 		};
 
-		if (coverImage.file) {
-			await deleteObject(ref(storage, cover));
-			let coverUrl = await storeImageFile(coverImage.file, 'images', id + '_cover');
-			newImage.cover = coverUrl;
+		if (formJson.icon.name) {
+			await deleteObject(ref(storage, icon));
+			let iconUrl = await storeImageFile(formJson.icon, folder, id);
+			newCategory.icon = iconUrl;
 		}
 
-		if (backgroundImage.file) {
-			await deleteObject(ref(storage, background));
-			let backgroundUrl = await storeImageFile(backgroundImage.file, 'images', id + '_background');
-			newImage.background = backgroundUrl;
-		}
-
-		await updateDoc(doc(db, 'images', newImage.id), newImage);
+		await updateDoc(doc(db, name, newCategory.id), newCategory);
 
 		setDisabledForm(true);
 		stateChanger();
 	};
 
-	const deleteImage = async () => {
-		await deleteObject(ref(storage, cover));
-		await deleteObject(ref(storage, background));
-		await deleteDoc(doc(db, 'images', id));
+	const deleteIcon = async () => {
+		await deleteObject(ref(storage, icon));
+		await deleteDoc(doc(db, name, id));
 
 		stateChanger();
+	};
+
+	const [disabledForm, setDisabledForm] = useState(true);
+
+	const handleDisabledForm = () => {
+		setLinkIcon(icon);
+		setLinkTitle(title);
+		setLinkUrl(url);
+		setDisabledForm(!disabledForm);
 	};
 
 	const [showDelete, setShowDelete] = useState(false);
@@ -76,19 +67,7 @@ export default function ImageUpdateAndDelete({ id, cover, background, title, des
 
 	return (
 		<>
-			<ImageForm
-				id={id}
-				title={titleImage}
-				setTitle={setTitleImage}
-				description={descriptionImage}
-				setDescription={setDescriptionImage}
-				formAction={updateImage}
-				disabled={disabledForm}
-				coverImageCropped={coverImage}
-				setCoverImageCropped={setCoverImage}
-				backgroundImageCropped={backgroundImage}
-				setBackgroundImageCropped={setBackgroundImage}
-			>
+			<LinkForm id={id} icon={linkIcon} setIcon={setLinkIcon} title={linkTitle} setTitle={setLinkTitle} url={linkUrl} setUrl={setLinkUrl} formAction={updateIcon} disabled={disabledForm}>
 				{disabledForm && !showDelete && (
 					<>
 						<button type='button' className={buttonStyleDefault} onClick={handleDisabledForm}>
@@ -103,7 +82,7 @@ export default function ImageUpdateAndDelete({ id, cover, background, title, des
 
 				{disabledForm && showDelete && (
 					<>
-						<button type='button' className={buttonStyleRed} onClick={deleteImage}>
+						<button type='button' className={buttonStyleRed} onClick={deleteIcon}>
 							Supprimer
 						</button>
 
@@ -124,7 +103,7 @@ export default function ImageUpdateAndDelete({ id, cover, background, title, des
 						</button>
 					</>
 				)}
-			</ImageForm>
+			</LinkForm>
 		</>
 	);
 }

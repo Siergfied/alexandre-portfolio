@@ -1,9 +1,24 @@
 import React, { useState } from 'react';
 
-export default function VideoForm({ id, url, title, description, formAction, disabled, children }) {
+export default function VideoForm({ id, url, setUrl, title, setTitle, description, setDescription, formAction, disabled, children }) {
 	const [urlError, setUrlError] = useState();
 	const [titleError, setTitleError] = useState();
 	const [descriptionError, setDescriptionError] = useState();
+
+	const handleUrl = (event) => {
+		setUrl && setUrl(event.target.value);
+		setUrlError();
+	};
+
+	const handleTitle = (event) => {
+		setTitle && setTitle(event.target.value);
+		setTitleError();
+	};
+
+	const handleDescription = (event) => {
+		setDescription && setDescription(event.target.value);
+		setDescriptionError();
+	};
 
 	const handleForm = (event) => {
 		event.preventDefault();
@@ -18,18 +33,6 @@ export default function VideoForm({ id, url, title, description, formAction, dis
 		if (!formJson.url || !formJson.title || !formJson.description) return;
 
 		formAction(event);
-	};
-
-	const handleUrlError = () => {
-		setUrlError();
-	};
-
-	const handleTitleError = () => {
-		setTitleError();
-	};
-
-	const handleDescriptionError = () => {
-		setDescriptionError();
 	};
 
 	return (
@@ -49,9 +52,9 @@ export default function VideoForm({ id, url, title, description, formAction, dis
 									id={id + '_url'}
 									autoComplete='off'
 									className={'border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full ' + (disabled ? 'bg-zinc-400' : 'bg-zinc-100')}
-									defaultValue={url}
+									value={url}
 									disabled={disabled}
-									onChange={handleUrlError}
+									onChange={handleUrl}
 								/>
 							</div>
 
@@ -66,9 +69,9 @@ export default function VideoForm({ id, url, title, description, formAction, dis
 									id={id + '_title'}
 									autoComplete='off'
 									className={'border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full ' + (disabled ? 'bg-zinc-400' : 'bg-zinc-100')}
-									defaultValue={title}
+									value={title}
 									disabled={disabled}
-									onChange={handleTitleError}
+									onChange={handleTitle}
 								/>
 							</div>
 						</div>
@@ -84,9 +87,9 @@ export default function VideoForm({ id, url, title, description, formAction, dis
 								className={
 									'border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full h-full resize-none ' + (disabled ? 'bg-zinc-400' : 'bg-zinc-100')
 								}
-								defaultValue={description}
+								value={description}
 								disabled={disabled}
-								onChange={handleDescriptionError}
+								onChange={handleDescription}
 							/>
 						</div>
 					</div>

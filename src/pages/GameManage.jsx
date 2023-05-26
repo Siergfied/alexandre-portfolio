@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../firebase.js';
 import { collection, getDocs } from 'firebase/firestore';
 
-import CategoryAdd from '../fragments/CategoryAdd.jsx';
-import CategoryUpdateAndDelete from '../fragments/CategoryUpdateAndDelete.jsx';
 import GameUpdate from '../fragments/GameUpdate.jsx';
+import IconAdd from '../fragments/IconAdd.jsx';
+import IconUpdateAndDelete from '../fragments/IconUpdateAndDelete.jsx';
 
 export default function GameManage() {
 	const [gameData, setGameData] = useState([]);
@@ -45,7 +45,7 @@ export default function GameManage() {
 	const h2Style = 'flex items-center whitespace-nowrap justify-between gap-4 py-4 px-4 font-medium text-zinc-200 before:block before:w-full before:border before:bg-zinc-200 after:block after:w-full after:border after:bg-zinc-200';
 
 	return (
-		<div className='flex gap-24 pl-24 pr-20 overflow-hidden'>
+		<div className='flex gap-24 pl-4 overflow-hidden'>
 			<div className='flex w-1/2'>
 				<div className='w-full'>
 					<h2 className={h2Style}>Editer le jeu</h2>
@@ -60,7 +60,7 @@ export default function GameManage() {
 					<div>
 						<h2 className={h2Style}>Ajouter une catégorie</h2>
 						<div className='pr-4'>
-							<CategoryAdd stateChanger={handleDataChanged} />
+							<IconAdd stateChanger={handleDataChanged} name={'categories'} folder={'categories_icons'} />
 						</div>
 					</div>
 
@@ -69,7 +69,7 @@ export default function GameManage() {
 						<ul className='flex flex-col w-full gap-6 pr-4'>
 							{categoryData.map(({ id, title, icon }) => (
 								<li key={id}>
-									<CategoryUpdateAndDelete id={id} title={title} icon={icon} stateChanger={handleDataChanged} />
+									<IconUpdateAndDelete id={id} title={title} icon={icon} stateChanger={handleDataChanged} name={'categories'} folder={'categories_icons'} />
 								</li>
 							))}
 						</ul>

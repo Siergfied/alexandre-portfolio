@@ -32,13 +32,9 @@ export default function ImageDisplay() {
 						<div className='flex h-full w-full relative'>
 							<img src={imageData[carouselIndex].background} alt={imageData[carouselIndex].title} className='w-full h-full object-cover blur-sm' />
 							<div className='absolute flex h-full py-12 px-44 justify-between gap-24'>
-								<img
-									src={imageData[carouselIndex].cover}
-									alt={imageData[carouselIndex].title}
-									className='max-h-full h-auto max-w-full w-auto border-8 border-zinc-800 shadow-2xl shadow-zinc-600'
-								/>
+								<img src={imageData[carouselIndex].cover} alt={imageData[carouselIndex].title} className='max-h-full h-auto max-w-full w-auto border-8 border-zinc-800' />
 
-								<div className='flex flex-col gap-12 h-fit border-8 border-zinc-800 bg-zinc-800/75 backdrop-blur-md text-zinc-300 p-4 grow-0 basis-4/6 shadow-2xl shadow-zinc-600'>
+								<div className='flex flex-col gap-12 h-fit border-8 border-zinc-800 bg-zinc-800/75 backdrop-blur-md text-zinc-300 p-4 grow-0 basis-4/6 '>
 									<h2 className='text-3xl font-bold uppercase'>{imageData[carouselIndex].title}</h2>
 									<p className='font-normal text-xl '>{imageData[carouselIndex].description}</p>
 								</div>

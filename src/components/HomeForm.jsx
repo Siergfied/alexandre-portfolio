@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
 
-export default function HomeForm({ id, title, description, formAction, disabled, children }) {
+export default function HomeForm({ id, title, setTitle, description, setDescription, formAction, disabled, children }) {
 	const [titleError, setTitleError] = useState();
 	const [descriptionError, setDescriptionError] = useState();
+
+	const handleTitle = (event) => {
+		setTitle && setTitle(event.target.value);
+		setTitleError();
+	};
+
+	const handleDescription = (event) => {
+		setDescription && setDescription(event.target.value);
+		setDescriptionError();
+	};
 
 	const handleForm = (event) => {
 		event.preventDefault();
@@ -18,20 +28,12 @@ export default function HomeForm({ id, title, description, formAction, disabled,
 		formAction(event);
 	};
 
-	const handleTitleError = () => {
-		setTitleError();
-	};
-
-	const handleDescriptionError = () => {
-		setDescriptionError();
-	};
-
 	return (
 		<>
-			<div className='bg-zinc-100 shadow sm:rounded-lg sm:p-6'>
-				<form onSubmit={handleForm} className='flex flex-col' id={id}>
-					<div className='flex w-full gap-6'>
-						<div className='flex flex-col w-full gap-2'>
+			<div className='bg-zinc-100 shadow sm:rounded-lg sm:p-6 flex h-full'>
+				<form onSubmit={handleForm} className='flex flex-col w-full h-full' id={id}>
+					<div className='flex gap-6 h-full'>
+						<div className='flex flex-col w-full h-full gap-2'>
 							<div>
 								<label htmlFor={id + '_title'} className='flex justify-between font-medium text-sm'>
 									<span className='text-zinc-700'>Titre</span>
@@ -43,13 +45,13 @@ export default function HomeForm({ id, title, description, formAction, disabled,
 									id={id + '_title'}
 									autoComplete='off'
 									className={'border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full ' + (disabled ? 'bg-zinc-400' : 'bg-zinc-100')}
-									defaultValue={title}
+									value={title}
 									disabled={disabled}
-									onChange={handleTitleError}
+									onChange={handleTitle}
 								/>
 							</div>
 
-							<div className='flex flex-col'>
+							<div className='flex flex-col h-full'>
 								<label htmlFor={id + '_description'} className='flex justify-between font-medium text-sm'>
 									<span className='text-zinc-700'>Description</span>
 									<span className='text-red-600'>{descriptionError}</span>
@@ -61,9 +63,9 @@ export default function HomeForm({ id, title, description, formAction, disabled,
 										'border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full h-full resize-none ' +
 										(disabled ? 'bg-zinc-400' : 'bg-zinc-100')
 									}
-									defaultValue={description}
+									value={description}
 									disabled={disabled}
-									onChange={handleDescriptionError}
+									onChange={handleDescription}
 								/>
 							</div>
 						</div>

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import ImageCropper from './ImageCropper.jsx';
 import Modal from './Modal.jsx';
 
-export default function ImageForm({ id, title, description, formAction, disabled, coverImageCropped, setCoverImageCropped, backgroundImageCropped, setBackgroundImageCropped, children }) {
+export default function ImageForm({ id, title, setTitle, description, setDescription, formAction, disabled, coverImageCropped, setCoverImageCropped, backgroundImageCropped, setBackgroundImageCropped, children }) {
 	const handleChange = (event, setImageState) => {
 		if (event.target.files && event.target.files.length > 0) {
 			const reader = new FileReader();
@@ -14,15 +14,23 @@ export default function ImageForm({ id, title, description, formAction, disabled
 		}
 	};
 
-	const [modalIsOpen, setModalIsOpen] = useState(false);
-	const [modalContent, setModalContent] = useState('');
-
-	const closeModal = () => {
-		setModalIsOpen(false);
-	};
-
 	const [coverImage, setCoverImage] = useState();
 	const [backgroundImage, setBackgroundImage] = useState();
+
+	const [coverError, setCoverError] = useState();
+	const [backgroundError, setBackgroundError] = useState();
+	const [titleError, setTitleError] = useState();
+	const [descriptionError, setDescriptionError] = useState();
+
+	const handleTitle = (event) => {
+		setTitle && setTitle(event.target.value);
+		setTitleError();
+	};
+
+	const handleDescription = (event) => {
+		setDescription && setDescription(event.target.value);
+		setDescriptionError();
+	};
 
 	const handleCover = (event) => {
 		handleChange(event, setCoverImage);
@@ -54,10 +62,12 @@ export default function ImageForm({ id, title, description, formAction, disabled
 		}
 	};
 
-	const [coverError, setCoverError] = useState();
-	const [backgroundError, setBackgroundError] = useState();
-	const [titleError, setTitleError] = useState();
-	const [descriptionError, setDescriptionError] = useState();
+	const [modalIsOpen, setModalIsOpen] = useState(false);
+	const [modalContent, setModalContent] = useState('');
+
+	const closeModal = () => {
+		setModalIsOpen(false);
+	};
 
 	const handleForm = async (event) => {
 		event.preventDefault();
@@ -73,14 +83,6 @@ export default function ImageForm({ id, title, description, formAction, disabled
 		if (!coverImageCropped || !backgroundImageCropped || !formJson.title || !formJson.description) return;
 
 		formAction(event);
-	};
-
-	const handleTitleError = () => {
-		setTitleError();
-	};
-
-	const handleDescriptionError = () => {
-		setDescriptionError();
 	};
 
 	return (
@@ -101,11 +103,11 @@ export default function ImageForm({ id, title, description, formAction, disabled
 										className='z-10 absolute inline-flex items-center justify-center px-4 py-2 bg-zinc-600 border border-transparent rounded-md font-semibold text-xs text-zinc-100 uppercase tracking-widest hover:bg-zinc-300 focus:bg-zinc-300 active:bg-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 cursor-pointer w-32'
 									>
 										{coverImageCropped && 'Modifier'}
-										{!coverImageCropped && 'Sélectionner'}
+										{!coverImageCropped && 'Parcourir'}
 									</label>
 								)}
 
-								<input type='file' name='cover' id={id + '_cover'} onChange={handleCover} disabled={disabled} className='hidden' />
+								<input type='file' accept='image/*' name='cover' id={id + '_cover'} onChange={handleCover} disabled={disabled} className='hidden' />
 							</div>
 						</div>
 
@@ -122,11 +124,11 @@ export default function ImageForm({ id, title, description, formAction, disabled
 										className='z-10 absolute inline-flex items-center justify-center px-4 py-2 bg-zinc-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-zinc-300 focus:bg-zinc-300 active:bg-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 cursor-pointer w-32'
 									>
 										{backgroundImageCropped && 'Modifier'}
-										{!backgroundImageCropped && 'Sélectionner'}
+										{!backgroundImageCropped && 'Parcourir'}
 									</label>
 								)}
 
-								<input type='file' name='background' id={id + '_background'} onChange={handleBackground} disabled={disabled} className='hidden' />
+								<input type='file' accept='image/*' name='background' id={id + '_background'} onChange={handleBackground} disabled={disabled} className='hidden' />
 							</div>
 						</div>
 
@@ -143,9 +145,9 @@ export default function ImageForm({ id, title, description, formAction, disabled
 									id={id + '_title'}
 									autoComplete='off'
 									className={'border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full ' + (disabled ? 'bg-zinc-400' : ' bg-zinc-100')}
-									defaultValue={title}
+									value={title}
 									disabled={disabled}
-									onChange={handleTitleError}
+									onChange={handleTitle}
 								/>
 							</div>
 
@@ -161,9 +163,9 @@ export default function ImageForm({ id, title, description, formAction, disabled
 										'border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full h-full resize-none ' +
 										(disabled ? 'bg-zinc-400' : 'bg-zinc-100')
 									}
-									defaultValue={description}
+									value={description}
 									disabled={disabled}
-									onChange={handleDescriptionError}
+									onChange={handleDescription}
 								/>
 							</div>
 						</div>

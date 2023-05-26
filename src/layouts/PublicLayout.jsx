@@ -13,19 +13,19 @@ export default function MainLayout() {
 		<GlobalLayout>
 			<>
 				<NavLink to='/' className={navlinkClass}>
-					Home Display
+					Présentation
 				</NavLink>
 
-				<NavLink to='/image' className={navlinkClass}>
-					Image Display
+				<NavLink to='/realisations' className={navlinkClass}>
+					Réalisations
 				</NavLink>
 
-				<NavLink to='/video' className={navlinkClass}>
-					Video Display
+				<NavLink to='/videos' className={navlinkClass}>
+					Vidéos
 				</NavLink>
 
-				<NavLink to='/game' className={navlinkClass}>
-					Game
+				<NavLink to='/demo' className={navlinkClass}>
+					Démo
 				</NavLink>
 
 				<NavLink to='/admin' className={navlinkClass}>

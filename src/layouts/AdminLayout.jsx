@@ -30,7 +30,7 @@ export default function AdminLayout() {
 
 	useBeforeUnload(
 		useCallback(() => {
-			signOut(auth);
+			//signOut(auth);
 		})
 	);
 
@@ -42,24 +42,24 @@ export default function AdminLayout() {
 	return (
 		<GlobalLayout>
 			<>
-				<NavLink to='/admin/home_manage' className={navlinkClass}>
-					Home Manage
+				<NavLink to='/admin/presentation' className={navlinkClass}>
+					Présentation
 				</NavLink>
 
-				<NavLink to='/admin/image_manage' className={navlinkClass}>
-					Image Manage
+				<NavLink to='/admin/realisations' className={navlinkClass}>
+					Réalisations
 				</NavLink>
 
-				<NavLink to='/admin/video_manage' className={navlinkClass}>
-					Video Manage
+				<NavLink to='/admin/videos' className={navlinkClass}>
+					Videos
 				</NavLink>
 
-				<NavLink to='/admin/game_manage' className={navlinkClass}>
-					Game Manage
+				<NavLink to='/admin/demo' className={navlinkClass}>
+					Demo
 				</NavLink>
 
 				<button type='button' className={style + 'border-transparent text-zinc-500 hover:text-zinc-300 hover:border-gray-300 focus:text-zinc-300	 focus:border-gray-300'} onClick={handleSignOut}>
-					Sign out
+					Déconnexion
 				</button>
 			</>
 		</GlobalLayout>
