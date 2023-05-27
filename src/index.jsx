@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 
 import './index.css';
-import 'remixicon/fonts/remixicon.css';
 
 //Public
 import PublicLayout from './layouts/PublicLayout.jsx';

@@ -5,7 +5,7 @@ export default {
 	theme: {
 		extend: {
 			fontFamily: {
-				sans: ['Fira Sans'],
+				serif: ['Merriweather', 'serif'],
 			},
 		},
 	},

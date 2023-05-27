@@ -27,7 +27,7 @@ export default function GameDisplay() {
 	};
 
 	useEffect(() => {
-		document.title = 'Game - AF';
+		document.title = 'Démo - AF';
 		fetchCategoryData();
 		fetchGameData();
 	}, []);
