@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../firebase.js';
+import { db } from '../../firebase.js';
 import { collection, getDocs } from 'firebase/firestore';
 
-import GameUpdate from '../fragments/GameUpdate.jsx';
-import IconAdd from '../fragments/IconAdd.jsx';
-import IconUpdateAndDelete from '../fragments/IconUpdateAndDelete.jsx';
+import GameUpdate from '../../fragments/GameUpdate.jsx';
+import IconAdd from '../../fragments/IconAdd.jsx';
+import IconUpdateAndDelete from '../../fragments/IconUpdateAndDelete.jsx';
 
 export default function GameManage() {
 	const [gameData, setGameData] = useState([]);

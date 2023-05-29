@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../firebase.js';
+import { db } from '../../firebase.js';
 import { collection, getDocs } from 'firebase/firestore';
 
-import HomeUpdate from '../fragments/HomeUpdate';
+import HomeUpdate from '../../fragments/HomeUpdate.jsx';
 
-import IconAdd from '../fragments/IconAdd.jsx';
-import IconUpdateAndDelete from '../fragments/IconUpdateAndDelete.jsx';
+import IconAdd from '../../fragments/IconAdd.jsx';
+import IconUpdateAndDelete from '../../fragments/IconUpdateAndDelete.jsx';
 
-import LinkAdd from '../fragments/LinkAdd.jsx';
-import LinkUpdateAndDelete from '../fragments/LinkUpdateAndDelete.jsx';
+import LinkAdd from '../../fragments/LinkAdd.jsx';
+import LinkUpdateAndDelete from '../../fragments/LinkUpdateAndDelete.jsx';
 
 export default function HomeDisplay() {
 	const [homeData, setHomeData] = useState([]);

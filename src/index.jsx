@@ -6,21 +6,22 @@ import './index.css';
 
 //Public
 import PublicLayout from './layouts/PublicLayout.jsx';
-import HomeDisplay from './pages/HomeDisplay.jsx';
-import ImageDisplay from './pages/ImageDisplay.jsx';
-import VideoDisplay from './pages/VideoDisplay.jsx';
-import GameDisplay from './pages/GameDisplay';
+import HomeDisplay from './pages/public/HomeDisplay.jsx';
+import ImageDisplay from './pages/public/ImageDisplay.jsx';
+import VideoDisplay from './pages/public/VideoDisplay.jsx';
+import GameDisplay from './pages/public/GameDisplay';
 
 //Admin
 import AdminLayout from './layouts/AdminLayout.jsx';
-import HomeManage from './pages/HomeManage.jsx';
-import ImageManage from './pages/ImageManage.jsx';
-import VideoManage from './pages/VideoManage.jsx';
+import HomeManage from './pages/admin/HomeManage.jsx';
+import ImageManage from './pages/admin/ImageManage.jsx';
+import VideoManage from './pages/admin/VideoManage.jsx';
+import GameManage from './pages/admin/GameManage';
 
 //Global
 import Login from './pages/Login';
 import Error from './pages/Error';
-import GameManage from './pages/GameManage';
+import Contact from './pages/public/Contact';
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -41,6 +42,7 @@ const router = createBrowserRouter(
 				<Route path='/realisations' element={<ImageDisplay />} />
 				<Route path='/videos' element={<VideoDisplay />} />
 				<Route path='/demo' element={<GameDisplay />} />
+				<Route path='/contact' element={<Contact />} />
 				<Route path='*' element={<Error />} />
 			</Route>
 		</Route>

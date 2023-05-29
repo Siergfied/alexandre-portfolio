@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../firebase.js';
+import { db } from '../../firebase.js';
 import { collection, getDocs } from 'firebase/firestore';
 
-import ImageAdd from '../fragments/ImageAdd.jsx';
-import ImageUpdateAndDelete from '../fragments/ImageUpdateAndDelete.jsx';
+import ImageAdd from '../../fragments/ImageAdd.jsx';
+import ImageUpdateAndDelete from '../../fragments/ImageUpdateAndDelete.jsx';
 
 export default function ImageManage() {
 	const [imageData, setImageData] = useState([]);

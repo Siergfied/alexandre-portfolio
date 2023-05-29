@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../firebase.js';
+import { db } from '../../firebase.js';
 import { collection, getDocs } from 'firebase/firestore';
 
-import Carousel from '../components/Carousel.jsx';
+import Carousel from '../../components/Carousel.jsx';
 
-export default function VideoDisplay() {
+export default function Video() {
 	const [videoData, setVideoData] = useState([]);
 
 	const fetchVideoData = async () => {
@@ -66,11 +66,11 @@ export default function VideoDisplay() {
 		<>
 			<Carousel array={videoData} carouselIndex={carouselIndex} setCarouselIndex={setCarouselIndex}>
 				<div className='h-full w-full'>
-					<div className='h-full w-full relative overflow-hidden'>
+					<div className='h-full w-full relative overflow-hidden border-8 border-[#8759B4] bg-gradient-to-br from-[#D0BEF4]  via-[#E7E9F6] to-[#A0D2EA]'>
 						{videoData.map(({ id, url, title, description }, index) => (
 							<div className={setClass(index)} key={id}>
-								<div className='flex h-full px-44 py-12 justify-between gap-12 relative bg-gradient-to-b from-zinc-300 via-zinc-700 to-zinc-800'>
-									<div className='border-8 border-zinc-800 w-full h-fit'>
+								<div className='flex h-full px-16 py-16 justify-between gap-16 relative '>
+									<div className='border-8 border-[#494D60] w-full h-fit'>
 										<iframe
 											className='aspect-video w-full'
 											src={'https://www.youtube.com/embed/' + url.split('=')[1]}
@@ -79,7 +79,7 @@ export default function VideoDisplay() {
 										/>
 									</div>
 
-									<div className='flex flex-col gap-12 h-fit border-8 border-zinc-800 bg-zinc-800/75 backdrop-blur-md text-zinc-300 p-4 w-1/2'>
+									<div className='flex flex-col gap-12 h-fit border-8 border-[#494D60] bg-[#494D60]/80 backdrop-blur-md p-4 w-1/2'>
 										<p className='text-3xl font-bold uppercase'>{title}</p>
 										<p className='font-normal text-xl '>{description}</p>
 									</div>

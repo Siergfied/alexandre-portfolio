@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../firebase.js';
+import { db } from '../../firebase.js';
 import { collection, getDocs } from 'firebase/firestore';
 
-import Carousel from '../components/Carousel.jsx';
+import Carousel from '../../components/Carousel.jsx';
 
 export default function ImageDisplay() {
 	const [imageData, setImageData] = useState([]);
@@ -65,14 +65,14 @@ export default function ImageDisplay() {
 		<>
 			<Carousel array={imageData} carouselIndex={carouselIndex} setCarouselIndex={setCarouselIndex}>
 				<div className='h-full w-full'>
-					<div className='h-full w-full relative overflow-hidden'>
+					<div className='h-full w-full relative overflow-hidden border-8 border-[#56487b]'>
 						{imageData.map(({ id, cover, background, title, description }, index) => (
 							<div className={setClass(index)} key={id}>
 								<img src={background} alt={title} className='w-full h-full object-cover blur-sm' />
 								<div className='absolute top-0 left-0 flex h-full py-12 px-44 justify-between gap-24'>
 									<img src={cover} alt={title} className='max-h-full h-auto max-w-full w-auto border-8 border-zinc-800' />
 
-									<div className='flex flex-col gap-12 h-fit border-8 border-zinc-800 bg-zinc-800/75 backdrop-blur-md text-zinc-300 p-4 grow-0 basis-4/6 '>
+									<div className='flex flex-col gap-12 h-fit border-8 border-zinc-800 bg-zinc-800/70 backdrop-blur-md p-4 grow-0 basis-4/6 '>
 										<h2 className='text-3xl font-bold uppercase'>{title}</h2>
 										<p className='font-normal text-xl '>{description}</p>
 									</div>
