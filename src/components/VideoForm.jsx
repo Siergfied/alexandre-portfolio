@@ -1,22 +1,29 @@
 import React, { useState } from 'react';
 
-export default function VideoForm({ id, url, setUrl, title, setTitle, description, setDescription, formAction, disabled, children }) {
+export default function VideoForm({ id, order, setOrder, maxOrder, url, setUrl, title, setTitle, description, setDescription, formAction, disabled, children }) {
 	const [urlError, setUrlError] = useState();
 	const [titleError, setTitleError] = useState();
 	const [descriptionError, setDescriptionError] = useState();
 
+	const handleOrder = (event) => {
+		if (event.target.value == '' || event.target.value > maxOrder || event.target.value < 1) {
+			event.target.value = order;
+		}
+		setOrder(event.target.value);
+	};
+
 	const handleUrl = (event) => {
-		setUrl && setUrl(event.target.value);
+		setUrl(event.target.value);
 		setUrlError();
 	};
 
 	const handleTitle = (event) => {
-		setTitle && setTitle(event.target.value);
+		setTitle(event.target.value);
 		setTitleError();
 	};
 
 	const handleDescription = (event) => {
-		setDescription && setDescription(event.target.value);
+		setDescription(event.target.value);
 		setDescriptionError();
 	};
 
@@ -36,18 +43,36 @@ export default function VideoForm({ id, url, setUrl, title, setTitle, descriptio
 	};
 
 	return (
-		<form onSubmit={handleForm} className='flex flex-col bg-zinc-100 shadow sm:rounded-lg sm:p-6' id={id}>
+		<form onSubmit={handleForm} className='flex flex-col bg-zinc-100 shadow sm:rounded-lg sm:p-6 text-zinc-800' id={id + order}>
 			<div className='flex w-full gap-6'>
+				<div>
+					<label htmlFor={'order_' + id} className='flex font-semibold text-sm'>
+						<span className='text-zinc-700'>Ordre</span>
+					</label>
+
+					<input
+						type='number'
+						name='order'
+						id={'order_' + id}
+						className={'border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-16 ' + (disabled ? 'bg-zinc-400' : ' bg-zinc-100')}
+						min={1}
+						max={maxOrder}
+						value={order}
+						disabled={disabled}
+						onChange={handleOrder}
+					/>
+				</div>
+
 				<div className='flex flex-col w-1/2 gap-2'>
 					<div>
-						<label htmlFor={id + '_url'} className='flex justify-between font-medium text-sm'>
+						<label htmlFor={'url_' + id} className='flex justify-between font-medium text-sm'>
 							<span className='text-zinc-700'>URL</span>
 							<span className='text-red-600'>{urlError}</span>
 						</label>
 						<input
 							type='text'
 							name='url'
-							id={id + '_url'}
+							id={'url_' + id}
 							autoComplete='off'
 							className={'border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full ' + (disabled ? 'bg-zinc-400' : 'bg-zinc-100')}
 							value={url}
@@ -57,14 +82,14 @@ export default function VideoForm({ id, url, setUrl, title, setTitle, descriptio
 					</div>
 
 					<div>
-						<label htmlFor={id + '_title'} className='flex justify-between font-medium text-sm'>
+						<label htmlFor={'_title' + id} className='flex justify-between font-medium text-sm'>
 							<span className='text-zinc-700'>Titre</span>
 							<span className='text-red-600'>{titleError}</span>
 						</label>
 						<input
 							type='text'
 							name='title'
-							id={id + '_title'}
+							id={'_title' + id}
 							autoComplete='off'
 							className={'border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full ' + (disabled ? 'bg-zinc-400' : 'bg-zinc-100')}
 							value={title}
@@ -75,13 +100,13 @@ export default function VideoForm({ id, url, setUrl, title, setTitle, descriptio
 				</div>
 
 				<div className='flex flex-col w-full'>
-					<label htmlFor={id + '_description'} className='flex justify-between font-medium text-sm'>
+					<label htmlFor={'description_' + id} className='flex justify-between font-medium text-sm'>
 						<span className='text-zinc-700'>Description</span>
 						<span className='text-red-600'>{descriptionError}</span>
 					</label>
 					<textarea
 						name='description'
-						id={id + '_description'}
+						id={'description_' + id}
 						className={'border-zinc-400 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full h-full resize-none ' + (disabled ? 'bg-zinc-400' : 'bg-zinc-100')}
 						value={description}
 						disabled={disabled}

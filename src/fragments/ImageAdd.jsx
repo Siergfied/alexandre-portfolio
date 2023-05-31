@@ -1,22 +1,28 @@
 import React, { useState } from 'react';
 import { db } from '../firebase.js';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, updateDoc } from 'firebase/firestore';
 
 import ImageForm from '../components/ImageForm.jsx';
 
 import storeImageFile from '../functions/storeImageFile.js';
 
-export default function ImageAdd({ stateChanger }) {
+import { buttonStylePrimary } from '../components/ButtonStyle.jsx';
+
+export default function ImageAdd({ stateChanger, imagesDocuments }) {
 	const [formSubmit, setFormSubmit] = useState(false);
 
-	const [coverImage, setCoverImage] = useState();
-	const [backgroundImage, setBackgroundImage] = useState();
+	const [imageOrder, setImageOrder] = useState(1);
+	const [imageTitle, setImageTitle] = useState('');
+	const [imageDescription, setImageDescription] = useState('');
+	const [imageCover, setImageCover] = useState();
+	const [imageBackground, setImageBackground] = useState();
 
 	const clearForm = () => {
-		document.querySelector('#upload_title').value = '';
-		document.querySelector('#upload_description').value = '';
-		setCoverImage();
-		setBackgroundImage();
+		setImageOrder(1);
+		setImageTitle('');
+		setImageDescription('');
+		setImageCover();
+		setImageBackground();
 	};
 
 	const storeImage = async (event) => {
@@ -26,9 +32,18 @@ export default function ImageAdd({ stateChanger }) {
 
 		const formData = new FormData(event.target);
 		const formJson = Object.fromEntries(formData.entries());
+
 		formJson.id = Date.now().toString();
-		formJson.cover = await storeImageFile(coverImage.file, 'images', formJson.id + '_cover');
-		formJson.background = await storeImageFile(backgroundImage.file, 'images', formJson.id + '_background');
+		formJson.order = Number(formJson.order);
+		formJson.cover = await storeImageFile(imageCover.file, 'images', formJson.id + '_cover');
+		formJson.background = await storeImageFile(imageBackground.file, 'images', formJson.id + '_background');
+
+		imagesDocuments.forEach(async (element) => {
+			if (element.order >= formJson.order) {
+				element.order++;
+				await updateDoc(doc(db, 'images', element.id), element);
+			}
+		});
 
 		await setDoc(doc(db, 'images', formJson.id), formJson);
 
@@ -41,18 +56,21 @@ export default function ImageAdd({ stateChanger }) {
 		<>
 			<ImageForm
 				id={'upload'}
+				order={imageOrder}
+				setOrder={setImageOrder}
+				maxOrder={imagesDocuments.length + 1}
+				title={imageTitle}
+				setTitle={setImageTitle}
+				description={imageDescription}
+				setDescription={setImageDescription}
+				coverImageCropped={imageCover}
+				setCoverImageCropped={setImageCover}
+				backgroundImageCropped={imageBackground}
+				setBackgroundImageCropped={setImageBackground}
 				formAction={storeImage}
 				disabled={false}
-				coverImageCropped={coverImage}
-				setCoverImageCropped={setCoverImage}
-				backgroundImageCropped={backgroundImage}
-				setBackgroundImageCropped={setBackgroundImage}
 			>
-				<button
-					type='submit'
-					disabled={formSubmit}
-					className='inline-flex items-center justify-center px-4 py-2 w-28 bg-zinc-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-zinc-700 focus:bg-zinc-700 active:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150'
-				>
+				<button type='submit' disabled={formSubmit} className={buttonStylePrimary}>
 					Ajouter
 				</button>
 			</ImageForm>

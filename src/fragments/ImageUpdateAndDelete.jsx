@@ -7,19 +7,23 @@ import ImageForm from '../components/ImageForm.jsx';
 
 import storeImageFile from '../functions/storeImageFile.js';
 
-export default function ImageUpdateAndDelete({ id, cover, background, title, description, stateChanger }) {
-	const [titleImage, setTitleImage] = useState(title);
-	const [descriptionImage, setDescriptionImage] = useState(description);
-	const [coverImage, setCoverImage] = useState(cover);
-	const [backgroundImage, setBackgroundImage] = useState(background);
+import { buttonStylePrimary, buttonStyleSecondary, buttonStyleDanger } from '../components/ButtonStyle.jsx';
 
+export default function ImageUpdateAndDelete({ id, order, cover, background, title, description, stateChanger, imagesDocuments }) {
 	const [disabledForm, setDisabledForm] = useState(true);
 
+	const [imageOrder, setImageOrder] = useState(order);
+	const [imageTitle, setImageTitle] = useState(title);
+	const [imageDescription, setImageDescription] = useState(description);
+	const [imageCover, setImageCover] = useState(cover);
+	const [imageBackground, setImageBackground] = useState(background);
+
 	const handleDisabledForm = () => {
-		setTitleImage(title);
-		setDescriptionImage(description);
-		setCoverImage(cover);
-		setBackgroundImage(background);
+		setImageOrder(order);
+		setImageTitle(title);
+		setImageDescription(description);
+		setImageCover(cover);
+		setImageBackground(background);
 		setDisabledForm(!disabledForm);
 	};
 
@@ -31,18 +35,37 @@ export default function ImageUpdateAndDelete({ id, cover, background, title, des
 			id: id,
 			title: formJson.title,
 			description: formJson.description,
+			order: Number(formJson.order),
 		};
 
-		if (coverImage.file) {
+		if (imageCover.file) {
 			await deleteObject(ref(storage, cover));
-			let coverUrl = await storeImageFile(coverImage.file, 'images', id + '_cover');
+			let coverUrl = await storeImageFile(imageCover.file, 'images', id + '_cover');
 			newImage.cover = coverUrl;
 		}
 
-		if (backgroundImage.file) {
+		if (imageBackground.file) {
 			await deleteObject(ref(storage, background));
-			let backgroundUrl = await storeImageFile(backgroundImage.file, 'images', id + '_background');
+			let backgroundUrl = await storeImageFile(imageBackground.file, 'images', id + '_background');
 			newImage.background = backgroundUrl;
+		}
+
+		if (newImage.order > order) {
+			imagesDocuments.forEach(async (element) => {
+				if (element.order <= newImage.order && element.order != order) {
+					element.order--;
+					await updateDoc(doc(db, 'images', element.id), element);
+				}
+			});
+		}
+
+		if (newImage.order < order) {
+			imagesDocuments.forEach(async (element) => {
+				if (element.order <= order) {
+					element.order++;
+					await updateDoc(doc(db, 'images', element.id), element);
+				}
+			});
 		}
 
 		await updateDoc(doc(db, 'images', newImage.id), newImage);
@@ -56,6 +79,13 @@ export default function ImageUpdateAndDelete({ id, cover, background, title, des
 		await deleteObject(ref(storage, background));
 		await deleteDoc(doc(db, 'images', id));
 
+		imagesDocuments.forEach(async (element) => {
+			if (element.order > order) {
+				element.order--;
+				await updateDoc(doc(db, 'images', element.id), element);
+			}
+		});
+
 		stateChanger();
 	};
 
@@ -65,37 +95,31 @@ export default function ImageUpdateAndDelete({ id, cover, background, title, des
 		setShowDelete(!showDelete);
 	};
 
-	const buttonStyle =
-		'inline-flex items-center justify-center px-4 py-2 w-28 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest  focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150 ';
-
-	const buttonStyleDefault = buttonStyle + 'bg-zinc-800 hover:bg-zinc-700 focus:bg-zinc-700 active:bg-zinc-900 focus:ring-indigo-500';
-
-	const buttonStyleRed = buttonStyle + 'bg-red-600 hover:bg-red-500 active:bg-red-700 focus:ring-red-500';
-
-	const buttonStyleGrey = buttonStyle + 'bg-zinc-400 hover:bg-zinc-300 focus:bg-zinc-300 active:bg-zinc-500 focus:ring-zinc-500';
-
 	return (
 		<>
 			<ImageForm
 				id={id}
-				title={titleImage}
-				setTitle={setTitleImage}
-				description={descriptionImage}
-				setDescription={setDescriptionImage}
+				order={imageOrder}
+				setOrder={setImageOrder}
+				maxOrder={imagesDocuments.length}
+				title={imageTitle}
+				setTitle={setImageTitle}
+				description={imageDescription}
+				setDescription={setImageDescription}
+				coverImageCropped={imageCover}
+				setCoverImageCropped={setImageCover}
+				backgroundImageCropped={imageBackground}
+				setBackgroundImageCropped={setImageBackground}
 				formAction={updateImage}
 				disabled={disabledForm}
-				coverImageCropped={coverImage}
-				setCoverImageCropped={setCoverImage}
-				backgroundImageCropped={backgroundImage}
-				setBackgroundImageCropped={setBackgroundImage}
 			>
 				{disabledForm && !showDelete && (
 					<>
-						<button type='button' className={buttonStyleDefault} onClick={handleDisabledForm}>
+						<button type='button' className={buttonStylePrimary} onClick={handleDisabledForm}>
 							Modifier
 						</button>
 
-						<button type='button' className={buttonStyleRed} onClick={handleDelete}>
+						<button type='button' className={buttonStyleDanger} onClick={handleDelete}>
 							Supprimer
 						</button>
 					</>
@@ -103,11 +127,11 @@ export default function ImageUpdateAndDelete({ id, cover, background, title, des
 
 				{disabledForm && showDelete && (
 					<>
-						<button type='button' className={buttonStyleRed} onClick={deleteImage}>
+						<button type='button' className={buttonStyleDanger} onClick={deleteImage}>
 							Supprimer
 						</button>
 
-						<button type='button' className={buttonStyleGrey} onClick={handleDelete}>
+						<button type='button' className={buttonStyleSecondary} onClick={handleDelete}>
 							Annuler
 						</button>
 					</>
@@ -115,11 +139,11 @@ export default function ImageUpdateAndDelete({ id, cover, background, title, des
 
 				{!disabledForm && (
 					<>
-						<button type='button' className={buttonStyleGrey} onClick={handleDisabledForm}>
+						<button type='button' className={buttonStyleSecondary} onClick={handleDisabledForm}>
 							Annuler
 						</button>
 
-						<button type='submit' className={buttonStyleDefault}>
+						<button type='submit' className={buttonStylePrimary}>
 							Valider
 						</button>
 					</>

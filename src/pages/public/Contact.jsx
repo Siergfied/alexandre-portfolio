@@ -3,8 +3,10 @@ import ContactForm from '../../components/ContactForm';
 
 export default function Contact() {
 	return (
-		<div>
-			<ContactForm />
+		<div className='h-full w-full border-4 border-blue-600'>
+			<div className=' '>
+				<ContactForm />
+			</div>
 		</div>
 	);
 }

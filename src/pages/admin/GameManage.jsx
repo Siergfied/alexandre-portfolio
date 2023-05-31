@@ -48,7 +48,7 @@ export default function GameManage() {
 		<div className='flex gap-24 pl-4 overflow-hidden'>
 			<div className='flex w-1/2'>
 				<div className='w-full'>
-					<h2 className={h2Style}>Editer le jeu</h2>
+					<h2 className={h2Style}>Editer la démo</h2>
 					{gameData.map(({ id, url, title, description, category }) => (
 						<GameUpdate key={id} id={id} url={url} title={title} description={description} category={category} categoryList={categoryData} stateChanger={handleDataChanged} />
 					))}

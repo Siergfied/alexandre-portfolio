@@ -1,16 +1,24 @@
 import React, { useState } from 'react';
 import { db } from '../firebase.js';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, updateDoc } from 'firebase/firestore';
 
 import VideoForm from '../components/VideoForm.jsx';
 
-export default function VideoAdd({ stateChanger }) {
+import { buttonStylePrimary } from '../components/ButtonStyle.jsx';
+
+export default function VideoAdd({ stateChanger, videosDocuments }) {
 	const [formSubmit, setFormSubmit] = useState(false);
 
+	const [videoOrder, setVideoOrder] = useState(1);
+	const [videoUrl, setVideoUrl] = useState('');
+	const [videoTitle, setVideoTitle] = useState('');
+	const [videoDescription, setVideoDescription] = useState('');
+
 	const clearForm = () => {
-		document.querySelector('#upload_url').value = '';
-		document.querySelector('#upload_title').value = '';
-		document.querySelector('#upload_description').value = '';
+		setVideoOrder(1);
+		setVideoUrl('');
+		setVideoTitle('');
+		setVideoDescription('');
 	};
 
 	const storeVideo = async (event) => {
@@ -21,6 +29,14 @@ export default function VideoAdd({ stateChanger }) {
 		const formJson = Object.fromEntries(formData.entries());
 
 		formJson.id = Date.now().toString();
+		formJson.order = Number(formJson.order);
+
+		videosDocuments.forEach(async (element) => {
+			if (element.order >= formJson.order) {
+				element.order++;
+				await updateDoc(doc(db, 'videos', element.id), element);
+			}
+		});
 
 		await setDoc(doc(db, 'videos', formJson.id), formJson);
 
@@ -31,12 +47,21 @@ export default function VideoAdd({ stateChanger }) {
 
 	return (
 		<>
-			<VideoForm id={'upload'} formAction={storeVideo} disabled={false}>
-				<button
-					type='submit'
-					disabled={formSubmit}
-					className='inline-flex items-center justify-center px-4 py-2 w-28 bg-zinc-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-zinc-700 focus:bg-zinc-700 active:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150'
-				>
+			<VideoForm
+				id={'upload'}
+				order={videoOrder}
+				setOrder={setVideoOrder}
+				maxOrder={videosDocuments.length + 1}
+				url={videoUrl}
+				setUrl={setVideoUrl}
+				title={videoTitle}
+				setTitle={setVideoTitle}
+				description={videoDescription}
+				setDescription={setVideoDescription}
+				formAction={storeVideo}
+				disabled={false}
+			>
+				<button type='submit' disabled={formSubmit} className={buttonStylePrimary}>
 					Ajouter
 				</button>
 			</VideoForm>

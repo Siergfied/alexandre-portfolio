@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase.js';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 
 import Carousel from '../../components/Carousel.jsx';
 
@@ -8,11 +8,11 @@ export default function Video() {
 	const [videoData, setVideoData] = useState([]);
 
 	const fetchVideoData = async () => {
-		const data = await getDocs(collection(db, 'videos'));
+		const data = await getDocs(query(collection(db, 'videos'), orderBy('order')));
 
-		let videoArray = [];
+		const videoArray = [];
 		data.forEach((doc) => {
-			videoArray.unshift({ ...doc.data() });
+			videoArray.push(doc.data());
 		});
 
 		setVideoData(videoArray);
@@ -64,22 +64,18 @@ export default function Video() {
 
 	return (
 		<>
+			<h1 className='invisible hidden'>Vidéos</h1>
 			<Carousel array={videoData} carouselIndex={carouselIndex} setCarouselIndex={setCarouselIndex}>
 				<div className='h-full w-full'>
-					<div className='h-full w-full relative overflow-hidden border-8 border-[#8759B4] bg-gradient-to-br from-[#D0BEF4]  via-[#E7E9F6] to-[#A0D2EA]'>
+					<div className='h-full w-full relative overflow-hidden border-8 border-[#8759B4] rounded bg-zinc-700'>
 						{videoData.map(({ id, url, title, description }, index) => (
 							<div className={setClass(index)} key={id}>
-								<div className='flex h-full px-16 py-16 justify-between gap-16 relative '>
-									<div className='border-8 border-[#494D60] w-full h-fit'>
-										<iframe
-											className='aspect-video w-full'
-											src={'https://www.youtube.com/embed/' + url.split('=')[1]}
-											title='YouTube video player'
-											allow='accelerometer; clipboard-write; encrypted-media; gyroscope; web-share'
-										/>
+								<div className='flex h-full px-16 py-12 justify-between gap-16 relative '>
+									<div className='border-8 border-zinc-800 w-full h-fit rounded bg-zinc-800/70 backdrop-blur-md'>
+										<iframe className='aspect-video w-full' src={'https://www.youtube.com/embed/' + url.split('=')[1]} title='YouTube video player' allow='' />
 									</div>
 
-									<div className='flex flex-col gap-12 h-fit border-8 border-[#494D60] bg-[#494D60]/80 backdrop-blur-md p-4 w-1/2'>
+									<div className='flex flex-col gap-12 h-fit border-8 border-zinc-800 bg-zinc-800/70 backdrop-blur-md p-4 w-1/2 rounded'>
 										<p className='text-3xl font-bold uppercase'>{title}</p>
 										<p className='font-normal text-xl '>{description}</p>
 									</div>

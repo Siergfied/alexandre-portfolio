@@ -29,7 +29,7 @@ export default function HomeForm({ id, title, setTitle, description, setDescript
 	};
 
 	return (
-		<form onSubmit={handleForm} className='flex flex-col w-full h-full bg-zinc-100 shadow sm:rounded-lg sm:p-6' id={id}>
+		<form onSubmit={handleForm} className='flex flex-col w-full h-full bg-zinc-100 shadow sm:rounded-lg sm:p-6 text-zinc-800' id={id}>
 			<div className='flex gap-6 h-full'>
 				<div className='flex flex-col w-full h-full gap-2'>
 					<div>

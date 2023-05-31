@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebase.js';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
+import { buttonStylePrimary } from '../components/ButtonStyle.jsx';
+
 export default function Login() {
 	const navigate = useNavigate();
 
@@ -63,8 +65,6 @@ export default function Login() {
 							/>
 						</div>
 
-						{/**outline outline-offset-0 outline-2 outline-red-600  transition ease-in-out duration-150*/}
-
 						<div className='mt-4'>
 							<label className='flex justify-between font-medium text-sm'>
 								<span className='text-zinc-700'>Password</span>
@@ -81,10 +81,7 @@ export default function Login() {
 						</div>
 
 						<div className='mt-4 flex justify-end'>
-							<button
-								type='submit'
-								className='inline-flex items-center justify-center px-4 py-2 bg-zinc-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-zinc-700 focus:bg-zinc-700 active:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150'
-							>
+							<button type='submit' className={buttonStylePrimary}>
 								Connexion
 							</button>
 						</div>

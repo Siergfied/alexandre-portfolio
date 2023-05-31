@@ -64,7 +64,7 @@ export default function HomeDisplay() {
 		<div className='flex w-full pl-4 gap-12 h-full overflow-hidden'>
 			<div className='w-1/3'>
 				<div className='flex flex-col h-full pr-4'>
-					<h2 className={h2Style}>Editer le texte de la page d'accueil</h2>
+					<h2 className={h2Style}>Editer le texte</h2>
 					{homeData.map(({ id, title, description }) => (
 						<HomeUpdate key={id} id={id} title={title} description={description} stateChanger={handleDataChanged} />
 					))}

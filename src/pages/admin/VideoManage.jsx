@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase.js';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 
 import VideoAdd from '../../fragments/VideoAdd.jsx';
 import VideoUpdateAndDelete from '../../fragments/VideoUpdateAndDelete.jsx';
@@ -14,12 +14,13 @@ export default function VideoManage() {
 	};
 
 	const fetchVideoData = async () => {
-		const data = await getDocs(collection(db, 'videos'));
+		const data = await getDocs(query(collection(db, 'videos'), orderBy('order')));
 
-		let videoArray = [];
+		const videoArray = [];
 		data.forEach((doc) => {
-			videoArray.unshift({ ...doc.data() });
+			videoArray.push(doc.data());
 		});
+
 		setVideoData(videoArray);
 	};
 
@@ -36,15 +37,15 @@ export default function VideoManage() {
 			<div className='px-4'>
 				<div>
 					<h2 className={h2Style}>Ajouter une vidéo</h2>
-					<VideoAdd stateChanger={handleDataChanged} />
+					<VideoAdd stateChanger={handleDataChanged} videosDocuments={videoData} />
 				</div>
 
 				<div className='mt-4'>
 					<h2 className={h2Style}>Modifier les vidéos</h2>
 					<ul className='flex flex-col w-full gap-6'>
-						{videoData.map(({ id, url, title, description }) => (
-							<li key={id}>
-								<VideoUpdateAndDelete id={id} url={url} title={title} description={description} stateChanger={handleDataChanged} />
+						{videoData.map(({ id, order, url, title, description }) => (
+							<li key={id + order}>
+								<VideoUpdateAndDelete id={id} order={order} url={url} title={title} description={description} stateChanger={handleDataChanged} videosDocuments={videoData} />
 							</li>
 						))}
 					</ul>

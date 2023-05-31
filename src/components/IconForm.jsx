@@ -35,7 +35,7 @@ export default function IconForm({ id, title, setTitle, icon, setIcon, formActio
 	};
 
 	return (
-		<form onSubmit={handleForm} className='flex flex-row gap-6 bg-zinc-100 shadow sm:rounded-lg sm:p-6'>
+		<form onSubmit={handleForm} className='flex flex-row gap-6 bg-zinc-100 shadow sm:rounded-lg sm:p-6  text-zinc-800'>
 			<div>
 				<label className='flex justify-between font-medium text-sm'>
 					<span className='text-zinc-700'>Icône</span>

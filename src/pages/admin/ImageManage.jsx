@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase.js';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 
 import ImageAdd from '../../fragments/ImageAdd.jsx';
 import ImageUpdateAndDelete from '../../fragments/ImageUpdateAndDelete.jsx';
@@ -14,12 +14,13 @@ export default function ImageManage() {
 	};
 
 	const fetchImageData = async () => {
-		const data = await getDocs(collection(db, 'images'));
+		const data = await getDocs(query(collection(db, 'images'), orderBy('order')));
 
-		let imageArray = [];
+		const imageArray = [];
 		data.forEach((doc) => {
-			imageArray.unshift({ ...doc.data() });
+			imageArray.push(doc.data());
 		});
+
 		setImageData(imageArray);
 	};
 
@@ -36,15 +37,24 @@ export default function ImageManage() {
 			<div className='px-4'>
 				<div>
 					<h2 className={h2Style}>Ajouter une image</h2>
-					<ImageAdd stateChanger={handleDataChanged} />
+					<ImageAdd stateChanger={handleDataChanged} imagesDocuments={imageData} />
 				</div>
 
 				<div className='mt-4'>
 					<h2 className={h2Style}>Modifier les images</h2>
 					<ul className='flex flex-col w-full gap-6'>
-						{imageData.map(({ id, cover, background, title, description }) => (
-							<li key={id}>
-								<ImageUpdateAndDelete id={id} cover={cover} background={background} title={title} description={description} stateChanger={handleDataChanged} />
+						{imageData.map(({ id, order, cover, background, title, description }) => (
+							<li key={id + order}>
+								<ImageUpdateAndDelete
+									id={id}
+									order={order}
+									cover={cover}
+									background={background}
+									title={title}
+									description={description}
+									stateChanger={handleDataChanged}
+									imagesDocuments={imageData}
+								/>
 							</li>
 						))}
 					</ul>

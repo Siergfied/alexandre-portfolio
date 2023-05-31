@@ -4,12 +4,23 @@ import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 
 import VideoForm from '../components/VideoForm.jsx';
 
-export default function VideoUpdateAndDelete({ id, url, title, description, stateChanger }) {
-	const [urlVideo, setUrlVideo] = useState(url);
-	const [titleVideo, setTitleVideo] = useState(title);
-	const [descriptionVideo, setDescriptionVideo] = useState(description);
+import { buttonStylePrimary, buttonStyleSecondary, buttonStyleDanger } from '../components/ButtonStyle.jsx';
 
+export default function VideoUpdateAndDelete({ id, order, url, title, description, stateChanger, videosDocuments }) {
 	const [disabledForm, setDisabledForm] = useState(true);
+
+	const [videoOrder, setVideoOrder] = useState(order);
+	const [videoUrl, setVideoUrl] = useState(url);
+	const [videoTitle, setVideoTitle] = useState(title);
+	const [videoDescription, setVideoDescription] = useState(description);
+
+	const handleDisabledForm = () => {
+		setVideoOrder(order);
+		setVideoUrl(url);
+		setVideoTitle(title);
+		setVideoDescription(description);
+		setDisabledForm(!disabledForm);
+	};
 
 	const updateVideo = async (event) => {
 		const formData = new FormData(event.target);
@@ -20,7 +31,26 @@ export default function VideoUpdateAndDelete({ id, url, title, description, stat
 			url: formJson.url,
 			title: formJson.title,
 			description: formJson.description,
+			order: Number(formJson.order),
 		};
+
+		if (newVideo.order > order) {
+			videosDocuments.forEach(async (element) => {
+				if (element.order <= newVideo.order && element.order != order) {
+					element.order--;
+					await updateDoc(doc(db, 'videos', element.id), element);
+				}
+			});
+		}
+
+		if (newVideo.order < order) {
+			videosDocuments.forEach(async (element) => {
+				if (element.order <= order) {
+					element.order++;
+					await updateDoc(doc(db, 'videos', element.id), element);
+				}
+			});
+		}
 
 		await updateDoc(doc(db, 'videos', id), newVideo);
 
@@ -30,14 +60,15 @@ export default function VideoUpdateAndDelete({ id, url, title, description, stat
 
 	const deleteVideo = async () => {
 		await deleteDoc(doc(db, 'videos', id));
-		stateChanger();
-	};
 
-	const handleDisabledForm = () => {
-		setUrlVideo(url);
-		setTitleVideo(title);
-		setDescriptionVideo(description);
-		setDisabledForm(!disabledForm);
+		videosDocuments.forEach(async (element) => {
+			if (element.order > order) {
+				element.order--;
+				await updateDoc(doc(db, 'videos', element.id), element);
+			}
+		});
+
+		stateChanger();
 	};
 
 	const [showDelete, setShowDelete] = useState(false);
@@ -46,25 +77,29 @@ export default function VideoUpdateAndDelete({ id, url, title, description, stat
 		setShowDelete(!showDelete);
 	};
 
-	const buttonStyle =
-		'inline-flex items-center justify-center px-4 py-2 w-28 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest  focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150 ';
-
-	const buttonStyleDefault = buttonStyle + 'bg-zinc-800 hover:bg-zinc-700 focus:bg-zinc-700 active:bg-zinc-900 focus:ring-indigo-500';
-
-	const buttonStyleRed = buttonStyle + 'bg-red-600 hover:bg-red-500 active:bg-red-700 focus:ring-red-500';
-
-	const buttonStyleGrey = buttonStyle + 'bg-zinc-400 hover:bg-zinc-300 focus:bg-zinc-300 active:bg-zinc-500 focus:ring-zinc-500';
-
 	return (
 		<>
-			<VideoForm formAction={updateVideo} disabled={disabledForm} id={id} url={urlVideo} setUrl={setUrlVideo} title={titleVideo} setTitle={setTitleVideo} description={descriptionVideo} setDescription={setDescriptionVideo}>
+			<VideoForm
+				id={id}
+				order={videoOrder}
+				setOrder={setVideoOrder}
+				maxOrder={videosDocuments.length}
+				url={videoUrl}
+				setUrl={setVideoUrl}
+				title={videoTitle}
+				setTitle={setVideoTitle}
+				description={videoDescription}
+				setDescription={setVideoDescription}
+				formAction={updateVideo}
+				disabled={disabledForm}
+			>
 				{disabledForm && !showDelete && (
 					<>
-						<button type='button' className={buttonStyleDefault} onClick={handleDisabledForm}>
+						<button type='button' className={buttonStylePrimary} onClick={handleDisabledForm}>
 							Modifier
 						</button>
 
-						<button type='button' className={buttonStyleRed} onClick={handleDelete}>
+						<button type='button' className={buttonStyleDanger} onClick={handleDelete}>
 							Supprimer
 						</button>
 					</>
@@ -72,11 +107,11 @@ export default function VideoUpdateAndDelete({ id, url, title, description, stat
 
 				{disabledForm && showDelete && (
 					<>
-						<button type='button' className={buttonStyleRed} onClick={deleteVideo}>
+						<button type='button' className={buttonStyleDanger} onClick={deleteVideo}>
 							Supprimer
 						</button>
 
-						<button type='button' className={buttonStyleGrey} onClick={handleDelete}>
+						<button type='button' className={buttonStyleSecondary} onClick={handleDelete}>
 							Annuler
 						</button>
 					</>
@@ -84,11 +119,11 @@ export default function VideoUpdateAndDelete({ id, url, title, description, stat
 
 				{!disabledForm && (
 					<>
-						<button type='button' className={buttonStyleGrey} onClick={handleDisabledForm}>
+						<button type='button' className={buttonStyleSecondary} onClick={handleDisabledForm}>
 							Annuler
 						</button>
 
-						<button type='submit' className={buttonStyleDefault}>
+						<button type='submit' className={buttonStylePrimary}>
 							Valider
 						</button>
 					</>

@@ -42,7 +42,7 @@ export default function LinkForm({ id, icon, setIcon, title, setTitle, url, setU
 	};
 
 	return (
-		<form onSubmit={handleForm} className='flex flex-row gap-6 bg-zinc-100 shadow sm:rounded-lg sm:p-6'>
+		<form onSubmit={handleForm} className='flex flex-row gap-6 bg-zinc-100 shadow sm:rounded-lg sm:p-6 text-zinc-800'>
 			<div>
 				<label className='flex justify-between font-medium text-sm'>
 					<span className='text-zinc-700'>Icône</span>
@@ -60,7 +60,7 @@ export default function LinkForm({ id, icon, setIcon, title, setTitle, url, setU
 						</label>
 					)}
 
-					<input type='file' accept='.svg' name='icon' id={'icon_' + id} onChange={handleIcon} disabled={disabled} className='hidden' />
+					<input type='file' accept='.svg, .png' name='icon' id={'icon_' + id} onChange={handleIcon} disabled={disabled} className='hidden' />
 				</div>
 			</div>
 
