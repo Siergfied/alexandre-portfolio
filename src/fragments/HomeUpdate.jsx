@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { db } from '../firebase.js';
 import { doc, updateDoc } from 'firebase/firestore';
 
-import HomeForm from '../components/HomeForm.jsx';
+import HomeForm from '../components/forms/HomeForm.jsx';
 
 import { buttonStylePrimary, buttonStyleSecondary } from '../components/ButtonStyle.jsx';
 
 export default function HomeUpdate({ id, title, description, stateChanger }) {
-	const [titleHome, setTitleHome] = useState(title);
-	const [descriptionHome, setDescriptionHome] = useState(description);
+	const [homeTitle, setHomeTitle] = useState(title);
+	const [homeDescription, setHomeDescription] = useState(description);
 
 	const [disabledForm, setDisabledForm] = useState(true);
 
@@ -29,14 +29,14 @@ export default function HomeUpdate({ id, title, description, stateChanger }) {
 	};
 
 	const handleDisabledForm = () => {
-		setTitleHome(title);
-		setDescriptionHome(description);
+		setHomeTitle(title);
+		setHomeDescription(description);
 		setDisabledForm(!disabledForm);
 	};
 
 	return (
 		<>
-			<HomeForm formAction={updateHome} disabled={disabledForm} id={id} title={titleHome} setTitle={setTitleHome} description={descriptionHome} setDescription={setDescriptionHome}>
+			<HomeForm id={id} title={homeTitle} setTitle={setHomeTitle} description={homeDescription} setDescription={setHomeDescription} formAction={updateHome} disabled={disabledForm}>
 				{disabledForm && (
 					<>
 						<button type='button' className={buttonStylePrimary} onClick={handleDisabledForm}>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { db } from '../firebase.js';
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 
-import VideoForm from '../components/VideoForm.jsx';
+import VideoForm from '../components/forms/VideoForm.jsx';
 
 import { buttonStylePrimary, buttonStyleSecondary, buttonStyleDanger } from '../components/ButtonStyle.jsx';
 
@@ -36,7 +36,7 @@ export default function VideoUpdateAndDelete({ id, order, url, title, descriptio
 
 		if (newVideo.order > order) {
 			videosDocuments.forEach(async (element) => {
-				if (element.order <= newVideo.order && element.order != order) {
+				if (element.order > order && element.order <= newVideo.order) {
 					element.order--;
 					await updateDoc(doc(db, 'videos', element.id), element);
 				}
@@ -45,7 +45,7 @@ export default function VideoUpdateAndDelete({ id, order, url, title, descriptio
 
 		if (newVideo.order < order) {
 			videosDocuments.forEach(async (element) => {
-				if (element.order <= order) {
+				if (element.order < order && element.order >= newVideo.order) {
 					element.order++;
 					await updateDoc(doc(db, 'videos', element.id), element);
 				}

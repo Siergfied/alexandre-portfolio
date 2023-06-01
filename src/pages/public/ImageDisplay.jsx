@@ -25,7 +25,7 @@ export default function ImageDisplay() {
 
 	const [carouselIndex, setCarouselIndex] = useState(0);
 
-	const nextCarousel = (carouselIndex, carouselLength) => {
+	const nextCarouselIndex = (carouselIndex, carouselLength) => {
 		if (carouselIndex == carouselLength - 1) {
 			return 0;
 		} else {
@@ -33,7 +33,7 @@ export default function ImageDisplay() {
 		}
 	};
 
-	const previousCarousel = (carouselIndex, carouselLength) => {
+	const previousCarouselIndex = (carouselIndex, carouselLength) => {
 		if (carouselIndex == 0) {
 			return carouselLength - 1;
 		} else {
@@ -48,10 +48,10 @@ export default function ImageDisplay() {
 			case carouselIndex:
 				classArray.push('duration-700 ease-in-out visible opacity-100');
 				break;
-			case previousCarousel(carouselIndex, imageData.length):
+			case previousCarouselIndex(carouselIndex, imageData.length):
 				classArray.push('visible duration-700 ease-in-out -translate-x-full opacity-0');
 				break;
-			case nextCarousel(carouselIndex, imageData.length):
+			case nextCarouselIndex(carouselIndex, imageData.length):
 				classArray.push('visible duration-700 ease-in-out translate-x-full opacity-0');
 				break;
 			default:
@@ -70,7 +70,7 @@ export default function ImageDisplay() {
 					<div className='h-full w-full relative overflow-hidden border-8 border-[#8759B4] rounded'>
 						{imageData.map(({ id, cover, background, title, description }, index) => (
 							<div className={setClass(index)} key={id}>
-								<img src={background} alt={'Couverture de ' + title} className='w-full h-full object-cover blur-sm' />
+								<img src={background} alt='' className='w-full h-full object-cover blur-sm' />
 								<div className='absolute top-0 left-0 flex h-full py-12 px-44 justify-between gap-24 '>
 									<img src={cover} alt='' className='max-h-full h-auto max-w-full w-auto border-8 border-zinc-800 rounded' />
 

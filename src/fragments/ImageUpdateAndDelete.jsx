@@ -3,7 +3,7 @@ import { db, storage } from '../firebase.js';
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { ref, deleteObject } from '@firebase/storage';
 
-import ImageForm from '../components/ImageForm.jsx';
+import ImageForm from '../components/forms/ImageForm.jsx';
 
 import storeImageFile from '../functions/storeImageFile.js';
 
@@ -52,7 +52,7 @@ export default function ImageUpdateAndDelete({ id, order, cover, background, tit
 
 		if (newImage.order > order) {
 			imagesDocuments.forEach(async (element) => {
-				if (element.order <= newImage.order && element.order != order) {
+				if (element.order > order && element.order <= newImage.order) {
 					element.order--;
 					await updateDoc(doc(db, 'images', element.id), element);
 				}
@@ -61,7 +61,7 @@ export default function ImageUpdateAndDelete({ id, order, cover, background, tit
 
 		if (newImage.order < order) {
 			imagesDocuments.forEach(async (element) => {
-				if (element.order <= order) {
+				if (element.order < order && element.order >= newImage.order) {
 					element.order++;
 					await updateDoc(doc(db, 'images', element.id), element);
 				}

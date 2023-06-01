@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../firebase.js';
 import { doc, updateDoc } from 'firebase/firestore';
 
-import GameForm from '../components/GameForm.jsx';
+import GameForm from '../components/forms/GameForm.jsx';
 
-import { buttonStylePrimary, buttonStyleSecondary, buttonStyleDanger } from '../components/ButtonStyle.jsx';
+import { buttonStylePrimary, buttonStyleSecondary } from '../components/ButtonStyle.jsx';
 
 export default function GameUpdate({ id, url, title, description, category, categoryList, stateChanger }) {
-	const [urlGame, setUrlGame] = useState(url);
-	const [titleGame, setTitleGame] = useState(title);
-	const [descriptionGame, setDescriptionGame] = useState(description);
-	const [categoryGame, setCategoryGame] = useState(category);
+	const [gameUrl, setGameUrl] = useState(url);
+	const [gameTitle, setGameTitle] = useState(title);
+	const [gameDescription, setGameDescription] = useState(description);
+	//const [gameCategory, setGameCategory] = useState(category);
 
 	const [disabledForm, setDisabledForm] = useState(true);
 
@@ -44,9 +44,9 @@ export default function GameUpdate({ id, url, title, description, category, cate
 	}, []);
 
 	const handleDisabledForm = () => {
-		setUrlGame(url);
-		setTitleGame(title);
-		setDescriptionGame(description);
+		setGameUrl(url);
+		setGameTitle(title);
+		setGameDescription(description);
 		handleCategory();
 		setDisabledForm(!disabledForm);
 	};
@@ -57,12 +57,12 @@ export default function GameUpdate({ id, url, title, description, category, cate
 				formAction={updateGame}
 				disabled={disabledForm}
 				id={id}
-				url={urlGame}
-				setUrl={setUrlGame}
-				title={titleGame}
-				setTitle={setTitleGame}
-				description={descriptionGame}
-				setDescription={setDescriptionGame}
+				url={gameUrl}
+				setUrl={setGameUrl}
+				title={gameTitle}
+				setTitle={setGameTitle}
+				description={gameDescription}
+				setDescription={setGameDescription}
 				category={category}
 				categoryList={categoryList}
 			>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase.js';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 
 import HomeUpdate from '../../fragments/HomeUpdate.jsx';
 
@@ -9,6 +9,8 @@ import IconUpdateAndDelete from '../../fragments/IconUpdateAndDelete.jsx';
 
 import LinkAdd from '../../fragments/LinkAdd.jsx';
 import LinkUpdateAndDelete from '../../fragments/LinkUpdateAndDelete.jsx';
+
+import { h2Style } from '../../layouts/Style.jsx';
 
 export default function HomeDisplay() {
 	const [homeData, setHomeData] = useState([]);
@@ -31,23 +33,25 @@ export default function HomeDisplay() {
 	};
 
 	const fetchLangageData = async () => {
-		const data = await getDocs(collection(db, 'langages'));
+		const data = await getDocs(query(collection(db, 'langages'), orderBy('order')));
 
-		let categoryArray = [];
+		const langageArray = [];
 		data.forEach((doc) => {
-			categoryArray.unshift({ ...doc.data() });
+			langageArray.push(doc.data());
 		});
-		setLangageData(categoryArray);
+
+		setLangageData(langageArray);
 	};
 
 	const fetchLinkData = async () => {
-		const data = await getDocs(collection(db, 'links'));
+		const data = await getDocs(query(collection(db, 'links'), orderBy('order')));
 
-		let categoryArray = [];
+		const linkArray = [];
 		data.forEach((doc) => {
-			categoryArray.unshift({ ...doc.data() });
+			linkArray.push(doc.data());
 		});
-		setLinkData(categoryArray);
+
+		setLinkData(linkArray);
 	};
 
 	useEffect(() => {
@@ -58,66 +62,77 @@ export default function HomeDisplay() {
 		document.title = 'Home - Admin - AF';
 	}, [dataChanged]);
 
-	const h2Style = 'flex items-center whitespace-nowrap justify-between gap-4 py-4 px-4 font-medium text-zinc-200 before:block before:w-full before:border before:bg-zinc-200 after:block after:w-full after:border after:bg-zinc-200';
-
 	return (
-		<div className='flex w-full pl-4 gap-12 h-full overflow-hidden'>
-			<div className='w-1/3'>
-				<div className='flex flex-col h-full pr-4'>
-					<h2 className={h2Style}>Editer le texte</h2>
-					{homeData.map(({ id, title, description }) => (
-						<HomeUpdate key={id} id={id} title={title} description={description} stateChanger={handleDataChanged} />
-					))}
-				</div>
+		<div className='flex flex-col w-full h-full pl-4 gap-6 overflow-hidden'>
+			<div className='flex flex-col w-full'>
+				<h2 className={h2Style}>Editer le texte</h2>
+				{homeData.map(({ id, title, description }) => (
+					<HomeUpdate key={id} id={id} title={title} description={description} stateChanger={handleDataChanged} />
+				))}
 			</div>
 
-			<div className='w-1/3 overflow-y-auto'>
-				<div className='flex flex-col w-full'>
+			<div className='w-full flex flex-row gap-6 overflow-auto'>
+				<div className='flex flex-col w-1/2 overflow-y-auto'>
 					<div>
 						<h2 className={h2Style}>Ajouter un langage</h2>
 						<div className='pr-4'>
-							<IconAdd stateChanger={handleDataChanged} name={'langages'} folder={'langages_icons'} />
+							<IconAdd stateChanger={handleDataChanged} name={'langages'} folder={'langages_icons'} iconsDocuments={langageData} />
 						</div>
 					</div>
 
-					<div className='mt-4'>
-						{langageData.length != 0 && (
-							<>
-								<h2 className={h2Style}>Editer les langages</h2>
-								<ul className='flex flex-col w-full gap-6 pr-4'>
-									{langageData.map(({ id, title, icon }) => (
-										<li key={id}>
-											<IconUpdateAndDelete id={id} icon={icon} title={title} stateChanger={handleDataChanged} name={'langages'} folder={'langages_icons'} />
-										</li>
-									))}
-								</ul>
-							</>
-						)}
-					</div>
+					{langageData.length != 0 && (
+						<div className='mt-4'>
+							<h2 className={h2Style}>Editer les langages</h2>
+							<ul className='flex flex-col w-full gap-6 pr-4'>
+								{langageData.map(({ id, order, title, icon }) => (
+									<li key={id + order}>
+										<IconUpdateAndDelete
+											id={id}
+											order={order}
+											icon={icon}
+											title={title}
+											stateChanger={handleDataChanged}
+											name={'langages'}
+											folder={'langages_icons'}
+											iconsDocuments={langageData}
+										/>
+									</li>
+								))}
+							</ul>
+						</div>
+					)}
 				</div>
-			</div>
 
-			<div className='w-1/3 overflow-y-auto'>
-				<div className='flex flex-col w-full'>
-					<div>
-						<h2 className={h2Style}>Ajouter un lien</h2>
-						<div className='pr-4'>
-							<LinkAdd stateChanger={handleDataChanged} name={'links'} folder={'links_icons'} />
+				<div className='w-1/2 overflow-y-auto'>
+					<div className='flex flex-col w-full'>
+						<div>
+							<h2 className={h2Style}>Ajouter un lien</h2>
+							<div className='pr-4'>
+								<LinkAdd stateChanger={handleDataChanged} name={'links'} folder={'links_icons'} linksDocuments={linkData} />
+							</div>
 						</div>
-					</div>
 
-					<div className='mt-4 '>
 						{linkData.length != 0 && (
-							<>
+							<div className='mt-4 '>
 								<h2 className={h2Style}>Editer les liens</h2>
 								<ul className='flex flex-col w-full gap-6 pr-4'>
-									{linkData.map(({ id, icon, title, url }) => (
-										<li key={id}>
-											<LinkUpdateAndDelete id={id} icon={icon} title={title} url={url} stateChanger={handleDataChanged} name={'links'} folder={'links_icons'} />
+									{linkData.map(({ id, order, icon, title, url }) => (
+										<li key={id + order}>
+											<LinkUpdateAndDelete
+												id={id}
+												order={order}
+												icon={icon}
+												title={title}
+												url={url}
+												stateChanger={handleDataChanged}
+												name={'links'}
+												folder={'links_icons'}
+												linksDocuments={linkData}
+											/>
 										</li>
 									))}
 								</ul>
-							</>
+							</div>
 						)}
 					</div>
 				</div>

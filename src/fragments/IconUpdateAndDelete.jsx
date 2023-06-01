@@ -3,32 +3,61 @@ import { db, storage } from '../firebase.js';
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { ref, deleteObject } from '@firebase/storage';
 
-import IconForm from '../components/IconForm.jsx';
+import IconForm from '../components/forms/IconForm.jsx';
 
 import storeImageFile from '../functions/storeImageFile.js';
 
 import { buttonStylePrimary, buttonStyleSecondary, buttonStyleDanger } from '../components/ButtonStyle.jsx';
 
-export default function IconUpdateAndDelete({ id, title, icon, stateChanger, name, folder }) {
-	const [titleCategory, setTitleCategory] = useState(title);
-	const [iconCategory, setIconCategory] = useState(icon);
+export default function IconUpdateAndDelete({ id, order, title, icon, stateChanger, name, folder, iconsDocuments }) {
+	const [disabledForm, setDisabledForm] = useState(true);
+
+	const [iconOrder, setIconOrder] = useState(order);
+	const [iconImage, setIconImage] = useState(icon);
+	const [iconTitle, setIconTitle] = useState(title);
+
+	const handleDisabledForm = () => {
+		setIconOrder(order);
+		setIconTitle(title);
+		setIconImage(icon);
+		setDisabledForm(!disabledForm);
+	};
 
 	const updateIcon = async (event) => {
 		const formData = new FormData(event.target);
 		const formJson = Object.fromEntries(formData.entries());
 
-		let newCategory = {
+		let newIcon = {
 			id: id,
 			title: formJson.title,
+			order: Number(formJson.order),
 		};
 
 		if (formJson.icon.name) {
 			await deleteObject(ref(storage, icon));
 			let iconUrl = await storeImageFile(formJson.icon, folder, id);
-			newCategory.icon = iconUrl;
+			newIcon.icon = iconUrl;
 		}
 
-		await updateDoc(doc(db, name, newCategory.id), newCategory);
+		if (newIcon.order > order) {
+			iconsDocuments.forEach(async (element) => {
+				if (element.order > order && element.order <= newIcon.order) {
+					element.order--;
+					await updateDoc(doc(db, name, element.id), element);
+				}
+			});
+		}
+
+		if (newIcon.order < order) {
+			iconsDocuments.forEach(async (element) => {
+				if (element.order < order && element.order >= newIcon.order) {
+					element.order++;
+					await updateDoc(doc(db, name, element.id), element);
+				}
+			});
+		}
+
+		await updateDoc(doc(db, name, newIcon.id), newIcon);
 
 		setDisabledForm(true);
 		stateChanger();
@@ -38,15 +67,14 @@ export default function IconUpdateAndDelete({ id, title, icon, stateChanger, nam
 		await deleteObject(ref(storage, icon));
 		await deleteDoc(doc(db, name, id));
 
+		iconsDocuments.forEach(async (element) => {
+			if (element.order > order) {
+				element.order--;
+				await updateDoc(doc(db, name, element.id), element);
+			}
+		});
+
 		stateChanger();
-	};
-
-	const [disabledForm, setDisabledForm] = useState(true);
-
-	const handleDisabledForm = () => {
-		setTitleCategory(title);
-		setIconCategory(icon);
-		setDisabledForm(!disabledForm);
 	};
 
 	const [showDelete, setShowDelete] = useState(false);
@@ -57,7 +85,18 @@ export default function IconUpdateAndDelete({ id, title, icon, stateChanger, nam
 
 	return (
 		<>
-			<IconForm id={id} title={titleCategory} setTitle={setTitleCategory} icon={iconCategory} setIcon={setIconCategory} formAction={updateIcon} disabled={disabledForm}>
+			<IconForm
+				id={id}
+				order={iconOrder}
+				setOrder={setIconOrder}
+				maxOrder={iconsDocuments.length}
+				icon={iconImage}
+				setIcon={setIconImage}
+				title={iconTitle}
+				setTitle={setIconTitle}
+				formAction={updateIcon}
+				disabled={disabledForm}
+			>
 				{disabledForm && !showDelete && (
 					<>
 						<button type='button' className={buttonStylePrimary} onClick={handleDisabledForm}>

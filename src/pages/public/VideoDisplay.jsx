@@ -25,7 +25,7 @@ export default function Video() {
 
 	const [carouselIndex, setCarouselIndex] = useState(0);
 
-	const nextCarousel = (carouselIndex, carouselLength) => {
+	const nextCarouselIndex = (carouselIndex, carouselLength) => {
 		if (carouselIndex == carouselLength - 1) {
 			return 0;
 		} else {
@@ -33,7 +33,7 @@ export default function Video() {
 		}
 	};
 
-	const previousCarousel = (carouselIndex, carouselLength) => {
+	const previousCarouselIndex = (carouselIndex, carouselLength) => {
 		if (carouselIndex == 0) {
 			return carouselLength - 1;
 		} else {
@@ -48,10 +48,10 @@ export default function Video() {
 			case carouselIndex:
 				classArray.push('duration-700 ease-in-out visible opacity-100');
 				break;
-			case previousCarousel(carouselIndex, videoData.length):
+			case previousCarouselIndex(carouselIndex, videoData.length):
 				classArray.push('visible duration-700 ease-in-out -translate-x-full opacity-0');
 				break;
-			case nextCarousel(carouselIndex, videoData.length):
+			case nextCarouselIndex(carouselIndex, videoData.length):
 				classArray.push('visible duration-700 ease-in-out translate-x-full opacity-0');
 				break;
 			default:

@@ -21,7 +21,7 @@ export default function Modal({ children, isOpen }) {
 
 	return (
 		<div className='fixed top-0 left-0 right-0 bottom-0 z-50 bg-black/95 '>
-			<div className='flex flex-col mx-auto my-24 max-w-5xl h-3/4 bg-white shadow sm:rounded-lg p-6 ' ref={wrapperReference}>
+			<div className='flex flex-col mx-auto my-24 max-w-5xl h-3/4 bg-violet-50 shadow sm:rounded-lg p-6 ' ref={wrapperReference}>
 				{children}
 			</div>
 		</div>

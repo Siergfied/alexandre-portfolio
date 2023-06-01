@@ -5,6 +5,8 @@ import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import VideoAdd from '../../fragments/VideoAdd.jsx';
 import VideoUpdateAndDelete from '../../fragments/VideoUpdateAndDelete.jsx';
 
+import { h2Style } from '../../layouts/Style.jsx';
+
 export default function VideoManage() {
 	const [videoData, setVideoData] = useState([]);
 	const [dataChanged, setDataChanged] = useState(false);
@@ -30,8 +32,6 @@ export default function VideoManage() {
 		document.title = 'Video - Admin - AF';
 	}, [dataChanged]);
 
-	const h2Style = 'flex items-center whitespace-nowrap justify-between gap-4 py-4 px-4 font-medium text-zinc-200 before:block before:w-full before:border before:bg-zinc-200 after:block after:w-full after:border after:bg-zinc-200';
-
 	return (
 		<>
 			<div className='px-4'>
@@ -40,16 +40,26 @@ export default function VideoManage() {
 					<VideoAdd stateChanger={handleDataChanged} videosDocuments={videoData} />
 				</div>
 
-				<div className='mt-4'>
-					<h2 className={h2Style}>Modifier les vidéos</h2>
-					<ul className='flex flex-col w-full gap-6'>
-						{videoData.map(({ id, order, url, title, description }) => (
-							<li key={id + order}>
-								<VideoUpdateAndDelete id={id} order={order} url={url} title={title} description={description} stateChanger={handleDataChanged} videosDocuments={videoData} />
-							</li>
-						))}
-					</ul>
-				</div>
+				{videoData.length != 0 && (
+					<div className='mt-4'>
+						<h2 className={h2Style}>Modifier les vidéos</h2>
+						<ul className='flex flex-col w-full gap-6'>
+							{videoData.map(({ id, order, url, title, description }) => (
+								<li key={id + order}>
+									<VideoUpdateAndDelete
+										id={id}
+										order={order}
+										url={url}
+										title={title}
+										description={description}
+										stateChanger={handleDataChanged}
+										videosDocuments={videoData}
+									/>
+								</li>
+							))}
+						</ul>
+					</div>
+				)}
 			</div>
 		</>
 	);

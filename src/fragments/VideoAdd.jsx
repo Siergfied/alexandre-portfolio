@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { db } from '../firebase.js';
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
 
-import VideoForm from '../components/VideoForm.jsx';
+import VideoForm from '../components/forms/VideoForm.jsx';
 
 import { buttonStylePrimary } from '../components/ButtonStyle.jsx';
 

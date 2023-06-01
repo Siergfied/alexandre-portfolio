@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase.js';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 
 import GameUpdate from '../../fragments/GameUpdate.jsx';
 import IconAdd from '../../fragments/IconAdd.jsx';
 import IconUpdateAndDelete from '../../fragments/IconUpdateAndDelete.jsx';
+
+import { h2Style } from '../../layouts/Style.jsx';
 
 export default function GameManage() {
 	const [gameData, setGameData] = useState([]);
@@ -16,12 +18,13 @@ export default function GameManage() {
 	};
 
 	const fetchCategoryData = async () => {
-		const data = await getDocs(collection(db, 'categories'));
+		const data = await getDocs(query(collection(db, 'categories'), orderBy('order')));
 
-		let categoryArray = [];
+		const categoryArray = [];
 		data.forEach((doc) => {
-			categoryArray.unshift({ ...doc.data() });
+			categoryArray.push(doc.data());
 		});
+
 		setCategoryData(categoryArray);
 	};
 
@@ -42,15 +45,22 @@ export default function GameManage() {
 		document.title = 'Game - Admin - AF';
 	}, [dataChanged]);
 
-	const h2Style = 'flex items-center whitespace-nowrap justify-between gap-4 py-4 px-4 font-medium text-zinc-200 before:block before:w-full before:border before:bg-zinc-200 after:block after:w-full after:border after:bg-zinc-200';
-
 	return (
 		<div className='flex gap-24 pl-4 overflow-hidden'>
 			<div className='flex w-1/2'>
 				<div className='w-full'>
 					<h2 className={h2Style}>Editer la démo</h2>
 					{gameData.map(({ id, url, title, description, category }) => (
-						<GameUpdate key={id} id={id} url={url} title={title} description={description} category={category} categoryList={categoryData} stateChanger={handleDataChanged} />
+						<GameUpdate
+							key={id}
+							id={id}
+							url={url}
+							title={title}
+							description={description}
+							category={category}
+							categoryList={categoryData}
+							stateChanger={handleDataChanged}
+						/>
 					))}
 				</div>
 			</div>
@@ -60,20 +70,31 @@ export default function GameManage() {
 					<div>
 						<h2 className={h2Style}>Ajouter une catégorie</h2>
 						<div className='pr-4'>
-							<IconAdd stateChanger={handleDataChanged} name={'categories'} folder={'categories_icons'} />
+							<IconAdd stateChanger={handleDataChanged} name={'categories'} folder={'categories_icons'} iconsDocuments={categoryData} />
 						</div>
 					</div>
 
-					<div className='mt-4'>
-						<h2 className={h2Style}>Editer les catégories</h2>
-						<ul className='flex flex-col w-full gap-6 pr-4'>
-							{categoryData.map(({ id, title, icon }) => (
-								<li key={id}>
-									<IconUpdateAndDelete id={id} title={title} icon={icon} stateChanger={handleDataChanged} name={'categories'} folder={'categories_icons'} />
-								</li>
-							))}
-						</ul>
-					</div>
+					{categoryData.length != 0 && (
+						<div className='mt-4'>
+							<h2 className={h2Style}>Editer les catégories</h2>
+							<ul className='flex flex-col w-full gap-6 pr-4'>
+								{categoryData.map(({ id, order, title, icon }) => (
+									<li key={id + order}>
+										<IconUpdateAndDelete
+											id={id}
+											order={order}
+											title={title}
+											icon={icon}
+											stateChanger={handleDataChanged}
+											name={'categories'}
+											folder={'categories_icons'}
+											iconsDocuments={categoryData}
+										/>
+									</li>
+								))}
+							</ul>
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

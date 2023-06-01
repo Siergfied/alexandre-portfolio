@@ -37,7 +37,9 @@ export default function AdminLayout() {
 	const style = 'inline-flex items-center px-1 border-b-2 font-medium leading-5 uppercase focus:outline-none transition duration-300 ease-in-out ';
 
 	const navlinkClass = ({ isActive }) =>
-		isActive ? style + 'border-[#8759B4] text-violet-50 focus:border-[#8759B4]' : style + 'border-transparent text-zinc-400 hover:text-violet-50 hover:border-violet-50 focus:text-violet-50 focus:border-violet-50';
+		isActive
+			? style + 'border-[#8759B4] text-violet-50 focus:border-[#8759B4]'
+			: style + 'border-transparent text-zinc-400 hover:text-violet-50 hover:border-violet-50 focus:text-violet-50 focus:border-violet-50';
 
 	return (
 		<GlobalLayout>
@@ -58,7 +60,13 @@ export default function AdminLayout() {
 					Demo
 				</NavLink>
 
-				<button type='button' className={style + 'border-transparent text-zinc-500 hover:text-zinc-300 hover:border-gray-300 focus:text-zinc-300	 focus:border-gray-300'} onClick={handleSignOut}>
+				<button
+					type='button'
+					className={
+						style + 'border-transparent text-zinc-400 hover:text-violet-50 hover:border-violet-50 focus:text-violet-50 focus:border-violet-50'
+					}
+					onClick={handleSignOut}
+				>
 					Déconnexion
 				</button>
 			</>
