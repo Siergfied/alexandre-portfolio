@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { db } from '../firebase.js';
-import { doc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 
 import IconForm from '../components/forms/IconForm.jsx';
 
 import storeImageFile from '../functions/storeImageFile.js';
+import Order from '../functions/orderHandler.js';
 
-import { buttonStylePrimary } from '../components/ButtonStyle.jsx';
+import { buttonStylePrimary } from '../layouts/Style.jsx';
 
 export default function IconAdd({ stateChanger, name, folder, iconsDocuments }) {
 	const [formSubmit, setFormSubmit] = useState(false);
@@ -32,12 +33,7 @@ export default function IconAdd({ stateChanger, name, folder, iconsDocuments }) 
 		formJson.order = Number(formJson.order);
 		formJson.icon = await storeImageFile(formJson.icon, folder, formJson.id);
 
-		iconsDocuments.forEach(async (element) => {
-			if (element.order >= formJson.order) {
-				element.order++;
-				await updateDoc(doc(db, name, element.id), element);
-			}
-		});
+		Order.onNew(iconsDocuments, name, formJson.order);
 
 		await setDoc(doc(db, name, formJson.id), formJson);
 
@@ -57,7 +53,7 @@ export default function IconAdd({ stateChanger, name, folder, iconsDocuments }) 
 				setIcon={setIconImage}
 				title={iconTitle}
 				setTitle={setIconTitle}
-				disabled={false}
+				disabled={formSubmit}
 				formAction={storeIcon}
 			>
 				<button type='submit' disabled={formSubmit} className={buttonStylePrimary}>

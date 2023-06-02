@@ -4,7 +4,9 @@ import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 
 import VideoForm from '../components/forms/VideoForm.jsx';
 
-import { buttonStylePrimary, buttonStyleSecondary, buttonStyleDanger } from '../components/ButtonStyle.jsx';
+import Order from '../functions/orderHandler.js';
+
+import { buttonStylePrimary, buttonStyleSecondary, buttonStyleDanger } from '../layouts/Style.jsx';
 
 export default function VideoUpdateAndDelete({ id, order, url, title, description, stateChanger, videosDocuments }) {
 	const [disabledForm, setDisabledForm] = useState(true);
@@ -34,23 +36,7 @@ export default function VideoUpdateAndDelete({ id, order, url, title, descriptio
 			order: Number(formJson.order),
 		};
 
-		if (newVideo.order > order) {
-			videosDocuments.forEach(async (element) => {
-				if (element.order > order && element.order <= newVideo.order) {
-					element.order--;
-					await updateDoc(doc(db, 'videos', element.id), element);
-				}
-			});
-		}
-
-		if (newVideo.order < order) {
-			videosDocuments.forEach(async (element) => {
-				if (element.order < order && element.order >= newVideo.order) {
-					element.order++;
-					await updateDoc(doc(db, 'videos', element.id), element);
-				}
-			});
-		}
+		Order.onUpdate(videosDocuments, 'videos', newVideo.order, order);
 
 		await updateDoc(doc(db, 'videos', id), newVideo);
 
@@ -61,12 +47,7 @@ export default function VideoUpdateAndDelete({ id, order, url, title, descriptio
 	const deleteVideo = async () => {
 		await deleteDoc(doc(db, 'videos', id));
 
-		videosDocuments.forEach(async (element) => {
-			if (element.order > order) {
-				element.order--;
-				await updateDoc(doc(db, 'videos', element.id), element);
-			}
-		});
+		Order.onDelete(videosDocuments, 'videos', order);
 
 		stateChanger();
 	};

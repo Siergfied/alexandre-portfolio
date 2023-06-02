@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 
 import Cropper from 'react-easy-crop';
 
-import { buttonStylePrimary } from '../components/ButtonStyle.jsx';
+import { buttonStylePrimary } from '../layouts/Style.jsx';
 
 export default function ImageCropper({ originalImage, aspectRatio, imageCroppedState, closeCropper }) {
 	const [crop, setCrop] = useState({ x: 0, y: 0 });

@@ -4,7 +4,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 
 import GameForm from '../components/forms/GameForm.jsx';
 
-import { buttonStylePrimary, buttonStyleSecondary } from '../components/ButtonStyle.jsx';
+import { buttonStylePrimary, buttonStyleSecondary } from '../layouts/Style.jsx';
 
 export default function GameUpdate({ id, url, title, description, category, categoryList, stateChanger }) {
 	const [gameUrl, setGameUrl] = useState(url);

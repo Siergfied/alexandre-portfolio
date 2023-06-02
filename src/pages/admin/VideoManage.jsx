@@ -34,16 +34,16 @@ export default function VideoManage() {
 
 	return (
 		<>
-			<div className='px-4'>
+			<div className='border-8 border-[#8759B4] rounded-sm bg-zinc-700 p-4 overflow-auto'>
 				<div>
 					<h2 className={h2Style}>Ajouter une vidéo</h2>
 					<VideoAdd stateChanger={handleDataChanged} videosDocuments={videoData} />
 				</div>
 
 				{videoData.length != 0 && (
-					<div className='mt-4'>
+					<div className='mt-2'>
 						<h2 className={h2Style}>Modifier les vidéos</h2>
-						<ul className='flex flex-col w-full gap-6'>
+						<ul className='flex flex-col w-full gap-4'>
 							{videoData.map(({ id, order, url, title, description }) => (
 								<li key={id + order}>
 									<VideoUpdateAndDelete

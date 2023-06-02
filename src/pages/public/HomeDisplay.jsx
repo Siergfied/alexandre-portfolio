@@ -85,12 +85,10 @@ export default function HomeDisplay() {
 
 			<div className='flex w-full mt-auto mb-0 gap-4'>
 				{linksData.map(({ id, icon, title, url }) => (
-					<>
-						<a key={id} href={url} target='_blank' className='flex flex-row items-center px-0.5 gap-1.5 h-full rounded hover:bg-zinc-600'>
-							<img src={icon} className='h-6 w-6' />
-							<span className='text-xl'>{title}</span>
-						</a>
-					</>
+					<a key={id} href={url} target='_blank' className='flex flex-row items-center px-0.5 gap-1.5 h-full rounded hover:bg-zinc-600'>
+						<img src={icon} className='h-6 w-6' />
+						<span className='text-xl'>{title}</span>
+					</a>
 				))}
 			</div>
 		</div>

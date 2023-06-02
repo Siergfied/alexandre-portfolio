@@ -4,7 +4,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 
 import HomeForm from '../components/forms/HomeForm.jsx';
 
-import { buttonStylePrimary, buttonStyleSecondary } from '../components/ButtonStyle.jsx';
+import { buttonStylePrimary, buttonStyleSecondary } from '../layouts/Style.jsx';
 
 export default function HomeUpdate({ id, title, description, stateChanger }) {
 	const [homeTitle, setHomeTitle] = useState(title);
@@ -36,7 +36,15 @@ export default function HomeUpdate({ id, title, description, stateChanger }) {
 
 	return (
 		<>
-			<HomeForm id={id} title={homeTitle} setTitle={setHomeTitle} description={homeDescription} setDescription={setHomeDescription} formAction={updateHome} disabled={disabledForm}>
+			<HomeForm
+				id={id}
+				title={homeTitle}
+				setTitle={setHomeTitle}
+				description={homeDescription}
+				setDescription={setHomeDescription}
+				formAction={updateHome}
+				disabled={disabledForm}
+			>
 				{disabledForm && (
 					<>
 						<button type='button' className={buttonStylePrimary} onClick={handleDisabledForm}>

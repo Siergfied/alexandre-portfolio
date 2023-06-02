@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { db } from '../firebase.js';
-import { doc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 
 import VideoForm from '../components/forms/VideoForm.jsx';
 
-import { buttonStylePrimary } from '../components/ButtonStyle.jsx';
+import Order from '../functions/orderHandler.js';
+
+import { buttonStylePrimary } from '../layouts/Style.jsx';
 
 export default function VideoAdd({ stateChanger, videosDocuments }) {
 	const [formSubmit, setFormSubmit] = useState(false);
@@ -31,12 +33,7 @@ export default function VideoAdd({ stateChanger, videosDocuments }) {
 		formJson.id = Date.now().toString();
 		formJson.order = Number(formJson.order);
 
-		videosDocuments.forEach(async (element) => {
-			if (element.order >= formJson.order) {
-				element.order++;
-				await updateDoc(doc(db, 'videos', element.id), element);
-			}
-		});
+		Order.onNew(videosDocuments, 'videos', formJson.order);
 
 		await setDoc(doc(db, 'videos', formJson.id), formJson);
 

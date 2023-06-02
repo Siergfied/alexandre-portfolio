@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { db } from '../firebase.js';
-import { doc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 
 import ImageForm from '../components/forms/ImageForm.jsx';
 
 import storeImageFile from '../functions/storeImageFile.js';
+import Order from '../functions/orderHandler.js';
 
-import { buttonStylePrimary } from '../components/ButtonStyle.jsx';
+import { buttonStylePrimary } from '../layouts/Style.jsx';
 
 export default function ImageAdd({ stateChanger, imagesDocuments }) {
 	const [formSubmit, setFormSubmit] = useState(false);
@@ -38,12 +39,7 @@ export default function ImageAdd({ stateChanger, imagesDocuments }) {
 		formJson.cover = await storeImageFile(imageCover.file, 'images', formJson.id + '_cover');
 		formJson.background = await storeImageFile(imageBackground.file, 'images', formJson.id + '_background');
 
-		imagesDocuments.forEach(async (element) => {
-			if (element.order >= formJson.order) {
-				element.order++;
-				await updateDoc(doc(db, 'images', element.id), element);
-			}
-		});
+		Order.onNew(imagesDocuments, 'images', formJson.order);
 
 		await setDoc(doc(db, 'images', formJson.id), formJson);
 

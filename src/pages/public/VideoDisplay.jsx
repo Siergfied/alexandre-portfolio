@@ -72,7 +72,13 @@ export default function Video() {
 							<div className={setClass(index)} key={id}>
 								<div className='flex h-full px-16 py-12 justify-between gap-16 relative '>
 									<div className='border-8 border-zinc-800 w-full h-fit rounded bg-zinc-800/70 backdrop-blur-md'>
-										<iframe className='aspect-video w-full' src={'https://www.youtube.com/embed/' + url.split('=')[1]} title='YouTube video player' allow='' />
+										<iframe
+											className='aspect-video w-full'
+											src={'https://www.youtube.com/embed/' + url.split('=')[1]}
+											title='YouTube video player'
+											allow=''
+											allowFullScreen
+										/>
 									</div>
 
 									<div className='flex flex-col gap-12 h-fit border-8 border-zinc-800 bg-zinc-800/70 backdrop-blur-md p-4 w-1/2 rounded'>

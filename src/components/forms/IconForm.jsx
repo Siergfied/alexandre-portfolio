@@ -59,7 +59,7 @@ export default function IconForm({ id, order, setOrder, maxOrder, icon, setIcon,
 					height={'w-20'}
 					image={icon}
 					imageSource={icon}
-					accept={'.svg, .png'}
+					accept={'.svg, .png, .webp'}
 					errorMessage={iconError}
 					disabled={disabled}
 					onChange={handleIcon}

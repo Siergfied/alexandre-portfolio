@@ -7,7 +7,8 @@ import IconForm from '../components/forms/IconForm.jsx';
 
 import storeImageFile from '../functions/storeImageFile.js';
 
-import { buttonStylePrimary, buttonStyleSecondary, buttonStyleDanger } from '../components/ButtonStyle.jsx';
+import { buttonStylePrimary, buttonStyleSecondary, buttonStyleDanger } from '../layouts/Style.jsx';
+import Order from '../functions/orderHandler.js';
 
 export default function IconUpdateAndDelete({ id, order, title, icon, stateChanger, name, folder, iconsDocuments }) {
 	const [disabledForm, setDisabledForm] = useState(true);
@@ -39,23 +40,7 @@ export default function IconUpdateAndDelete({ id, order, title, icon, stateChang
 			newIcon.icon = iconUrl;
 		}
 
-		if (newIcon.order > order) {
-			iconsDocuments.forEach(async (element) => {
-				if (element.order > order && element.order <= newIcon.order) {
-					element.order--;
-					await updateDoc(doc(db, name, element.id), element);
-				}
-			});
-		}
-
-		if (newIcon.order < order) {
-			iconsDocuments.forEach(async (element) => {
-				if (element.order < order && element.order >= newIcon.order) {
-					element.order++;
-					await updateDoc(doc(db, name, element.id), element);
-				}
-			});
-		}
+		Order.onUpdate(iconsDocuments, name, newIcon.order, order);
 
 		await updateDoc(doc(db, name, newIcon.id), newIcon);
 
@@ -67,12 +52,7 @@ export default function IconUpdateAndDelete({ id, order, title, icon, stateChang
 		await deleteObject(ref(storage, icon));
 		await deleteDoc(doc(db, name, id));
 
-		iconsDocuments.forEach(async (element) => {
-			if (element.order > order) {
-				element.order--;
-				await updateDoc(doc(db, name, element.id), element);
-			}
-		});
+		Order.onDelete(iconsDocuments, name, order);
 
 		stateChanger();
 	};

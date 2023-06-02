@@ -6,8 +6,9 @@ import { ref, deleteObject } from '@firebase/storage';
 import LinkForm from '../components/forms/LinkForm.jsx';
 
 import storeImageFile from '../functions/storeImageFile.js';
+import Order from '../functions/orderHandler.js';
 
-import { buttonStylePrimary, buttonStyleSecondary, buttonStyleDanger } from '../components/ButtonStyle.jsx';
+import { buttonStylePrimary, buttonStyleSecondary, buttonStyleDanger } from '../layouts/Style.jsx';
 
 export default function LinkUpdateAndDelete({ id, order, icon, title, url, stateChanger, name, folder, linksDocuments }) {
 	const [disabledForm, setDisabledForm] = useState(true);
@@ -42,23 +43,7 @@ export default function LinkUpdateAndDelete({ id, order, icon, title, url, state
 			newLink.icon = iconUrl;
 		}
 
-		if (newLink.order > order) {
-			linksDocuments.forEach(async (element) => {
-				if (element.order > order && element.order <= newLink.order) {
-					element.order--;
-					await updateDoc(doc(db, name, element.id), element);
-				}
-			});
-		}
-
-		if (newLink.order < order) {
-			linksDocuments.forEach(async (element) => {
-				if (element.order < order && element.order >= newLink.order) {
-					element.order++;
-					await updateDoc(doc(db, name, element.id), element);
-				}
-			});
-		}
+		Order.onUpdate(linksDocuments, name, newLink.order, order);
 
 		await updateDoc(doc(db, name, newLink.id), newLink);
 
@@ -70,12 +55,7 @@ export default function LinkUpdateAndDelete({ id, order, icon, title, url, state
 		await deleteObject(ref(storage, icon));
 		await deleteDoc(doc(db, name, id));
 
-		linksDocuments.forEach(async (element) => {
-			if (element.order > order) {
-				element.order--;
-				await updateDoc(doc(db, name, element.id), element);
-			}
-		});
+		Order.onDelete(linksDocuments, name, order);
 
 		stateChanger();
 	};

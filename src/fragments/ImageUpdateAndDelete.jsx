@@ -6,8 +6,9 @@ import { ref, deleteObject } from '@firebase/storage';
 import ImageForm from '../components/forms/ImageForm.jsx';
 
 import storeImageFile from '../functions/storeImageFile.js';
+import Order from '../functions/orderHandler.js';
 
-import { buttonStylePrimary, buttonStyleSecondary, buttonStyleDanger } from '../components/ButtonStyle.jsx';
+import { buttonStylePrimary, buttonStyleSecondary, buttonStyleDanger } from '../layouts/Style.jsx';
 
 export default function ImageUpdateAndDelete({ id, order, cover, background, title, description, stateChanger, imagesDocuments }) {
 	const [disabledForm, setDisabledForm] = useState(true);
@@ -50,23 +51,7 @@ export default function ImageUpdateAndDelete({ id, order, cover, background, tit
 			newImage.background = backgroundUrl;
 		}
 
-		if (newImage.order > order) {
-			imagesDocuments.forEach(async (element) => {
-				if (element.order > order && element.order <= newImage.order) {
-					element.order--;
-					await updateDoc(doc(db, 'images', element.id), element);
-				}
-			});
-		}
-
-		if (newImage.order < order) {
-			imagesDocuments.forEach(async (element) => {
-				if (element.order < order && element.order >= newImage.order) {
-					element.order++;
-					await updateDoc(doc(db, 'images', element.id), element);
-				}
-			});
-		}
+		Order.onUpdate(imagesDocuments, 'images', newImage.order, order);
 
 		await updateDoc(doc(db, 'images', newImage.id), newImage);
 
@@ -79,12 +64,7 @@ export default function ImageUpdateAndDelete({ id, order, cover, background, tit
 		await deleteObject(ref(storage, background));
 		await deleteDoc(doc(db, 'images', id));
 
-		imagesDocuments.forEach(async (element) => {
-			if (element.order > order) {
-				element.order--;
-				await updateDoc(doc(db, 'images', element.id), element);
-			}
-		});
+		Order.onDelete(imagesDocuments, 'images', order);
 
 		stateChanger();
 	};

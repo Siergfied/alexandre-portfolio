@@ -63,7 +63,7 @@ export default function HomeDisplay() {
 	}, [dataChanged]);
 
 	return (
-		<div className='flex flex-col w-full h-full pl-4 gap-6 overflow-hidden'>
+		<div className='flex flex-col w-full h-full gap-2 overflow-hidden border-8 border-[#8759B4] rounded-sm bg-zinc-700 p-4'>
 			<div className='flex flex-col w-full'>
 				<h2 className={h2Style}>Editer le texte</h2>
 				{homeData.map(({ id, title, description }) => (
@@ -71,7 +71,7 @@ export default function HomeDisplay() {
 				))}
 			</div>
 
-			<div className='w-full flex flex-row gap-6 overflow-auto'>
+			<div className='w-full flex flex-row gap-6 overflow-auto mt-2'>
 				<div className='flex flex-col w-1/2 overflow-y-auto'>
 					<div>
 						<h2 className={h2Style}>Ajouter un langage</h2>
@@ -81,9 +81,9 @@ export default function HomeDisplay() {
 					</div>
 
 					{langageData.length != 0 && (
-						<div className='mt-4'>
+						<div className='mt-2'>
 							<h2 className={h2Style}>Editer les langages</h2>
-							<ul className='flex flex-col w-full gap-6 pr-4'>
+							<ul className='flex flex-col w-full gap-4 pr-4'>
 								{langageData.map(({ id, order, title, icon }) => (
 									<li key={id + order}>
 										<IconUpdateAndDelete
@@ -113,9 +113,9 @@ export default function HomeDisplay() {
 						</div>
 
 						{linkData.length != 0 && (
-							<div className='mt-4 '>
+							<div className='mt-2'>
 								<h2 className={h2Style}>Editer les liens</h2>
-								<ul className='flex flex-col w-full gap-6 pr-4'>
+								<ul className='flex flex-col w-full gap-4 pr-4'>
 									{linkData.map(({ id, order, icon, title, url }) => (
 										<li key={id + order}>
 											<LinkUpdateAndDelete

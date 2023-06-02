@@ -1,11 +1,13 @@
 import React from 'react';
 
+//<InputText type={} name={} id={} label={} value={} errorMessage={} disabled={} onChange={}/>
+
 export default function InputText({ type, name, id, label, value, errorMessage, disabled, onChange }) {
 	return (
 		<>
 			<label htmlFor={name + '_' + id} className='flex justify-between text-base'>
-				<span className='text-zinc-700 font-semibold '>{label}</span>
-				<span className='text-red-600'>{errorMessage}</span>
+				<span className='font-semibold'>{label}</span>
+				<span className='text-[#8759B4]'>{errorMessage}</span>
 			</label>
 
 			<input
@@ -14,8 +16,8 @@ export default function InputText({ type, name, id, label, value, errorMessage, 
 				id={name + '_' + id}
 				autoComplete='off'
 				className={
-					'border-zinc-700 focus:border-[#8759B4] focus:ring-[#8759B4] rounded-md shadow-sm mt-1 block w-full ' +
-					(disabled ? 'bg-zinc-400' : 'bg-violet-50')
+					'border-zinc-800 focus:border-[#8759B4] focus:ring-[#8759B4] rounded shadow-sm mt-1 block w-full ' +
+					(disabled ? 'bg-zinc-800' : 'bg-zinc-600')
 				}
 				value={value}
 				disabled={disabled}

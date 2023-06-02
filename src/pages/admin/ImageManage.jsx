@@ -34,16 +34,16 @@ export default function ImageManage() {
 
 	return (
 		<>
-			<div className='px-4'>
+			<div className='border-8 border-[#8759B4] rounded-sm bg-zinc-700 p-4 overflow-auto'>
 				<div>
 					<h2 className={h2Style}>Ajouter une image</h2>
 					<ImageAdd stateChanger={handleDataChanged} imagesDocuments={imageData} />
 				</div>
 
 				{imageData.length != 0 && (
-					<div className='mt-4'>
+					<div className='mt-2'>
 						<h2 className={h2Style}>Modifier les images</h2>
-						<ul className='flex flex-col w-full gap-6'>
+						<ul className='flex flex-col w-full gap-4'>
 							{imageData.map(({ id, order, cover, background, title, description }) => (
 								<li key={id + order}>
 									<ImageUpdateAndDelete

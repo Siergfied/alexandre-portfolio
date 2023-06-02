@@ -46,7 +46,7 @@ export default function GameManage() {
 	}, [dataChanged]);
 
 	return (
-		<div className='flex gap-24 pl-4 overflow-hidden'>
+		<div className='flex h-full gap-10 border-8 border-[#8759B4] rounded-sm bg-zinc-700 p-4 overflow-auto'>
 			<div className='flex w-1/2'>
 				<div className='w-full'>
 					<h2 className={h2Style}>Editer la démo</h2>
@@ -75,9 +75,9 @@ export default function GameManage() {
 					</div>
 
 					{categoryData.length != 0 && (
-						<div className='mt-4'>
+						<div className='mt-2'>
 							<h2 className={h2Style}>Editer les catégories</h2>
-							<ul className='flex flex-col w-full gap-6 pr-4'>
+							<ul className='flex flex-col w-full gap-4 pr-4'>
 								{categoryData.map(({ id, order, title, icon }) => (
 									<li key={id + order}>
 										<IconUpdateAndDelete

@@ -30,7 +30,7 @@ export default function AdminLayout() {
 
 	useBeforeUnload(
 		useCallback(() => {
-			//signOut(auth);
+			signOut(auth);
 		})
 	);
 
