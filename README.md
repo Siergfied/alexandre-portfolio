@@ -14,9 +14,9 @@ Le projet est sous React & React Router et a était généré avec Vite.
 
 Le portfolio comprend 2 parties :
 
-• Une partie public avec l'affichage de ça présentation, ces réalisations, ces videos, une démo d'un de ces jeux et un formulaire de contact.
+• Une partie public avec l'affichage de : ça présentation, ces réalisations, ces videos, une démo d'un de ces jeux et un formulaire de contact.
 
-• Une partie privé avec la possibilité de modifié les informations de toutes la partie public.
+• Une partie privé avec la possibilité de modifier les informations de toutes la partie public.
 
 L'hosting, l'authentification, le stockage & la base de données sont gérés sous Firebase.
 Le formulaire de contact est envoyé grâce a EmailJS.
