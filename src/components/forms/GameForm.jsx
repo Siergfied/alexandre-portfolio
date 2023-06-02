@@ -80,12 +80,12 @@ export default function GameForm({ id, url, setUrl, title, setTitle, description
 
 					<div>
 						<label className='flex justify-between font-medium text-sm'>
-							<span className='text-zinc-700 font-semibold'>Categories</span>
+							<span className='font-semibold'>Categories</span>
 						</label>
 						<fieldset
 							className={
-								'border border-zinc-700 rounded-md shadow-sm py-2 px-3 flex flex-col gap-1 ' +
-								(disabled ? 'bg-zinc-400' : 'bg-violet-50')
+								'border border-zinc-800 rounded shadow-sm py-2 px-3 flex flex-col gap-1 ' +
+								(disabled ? 'bg-zinc-800' : 'bg-zinc-600')
 							}
 						>
 							{categoryList &&
@@ -97,10 +97,7 @@ export default function GameForm({ id, url, setUrl, title, setTitle, description
 											value={id}
 											name='category'
 											disabled={disabled}
-											className={
-												'rounded border-zinc-400 shadow-sm focus:ring-[#8759B4] scale-110 text-zinc-700 ' +
-												(disabled ? 'bg-violet-50' : '')
-											}
+											className='rounded border-zinc-400 shadow-sm focus:ring-[#8759B4] scale-110 text-zinc-700 '
 										/>
 										<label htmlFor={id + '_category'} className='ml-2 '>
 											{title}
