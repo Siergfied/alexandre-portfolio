@@ -65,9 +65,9 @@ export default function ContactForm({
 	};
 
 	return (
-		<form onSubmit={handleForm} className='flex flex-col h-full shadow rounded p-6 border-8 border-zinc-800 bg-zinc-800/70'>
-			<div className='flex flex-col w-full h-full gap-4'>
-				<div className='flex gap-6'>
+		<form onSubmit={handleForm} className='flex flex-col h-full shadow rounded lg:p-6 p-4 border-8 border-zinc-800 bg-zinc-800/70'>
+			<div className='flex flex-col w-full h-full lg:gap-4 gap-2'>
+				<div className='flex lg:gap-6 gap-2'>
 					<div className='w-full'>
 						<InputText
 							type={'text'}

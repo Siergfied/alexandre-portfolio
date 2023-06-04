@@ -67,10 +67,10 @@ export default function Video() {
 			<h1 className='invisible hidden'>Vidéos</h1>
 			<Carousel array={videoData} carouselIndex={carouselIndex} setCarouselIndex={setCarouselIndex}>
 				<div className='h-full w-full'>
-					<div className='h-full w-full relative overflow-hidden border-8 border-[#8759B4] rounded bg-zinc-700'>
+					<div className='h-full w-full relative overflow-hidden border-4 lg:border-8 border-[#8759B4] rounded bg-zinc-700'>
 						{videoData.map(({ id, url, title, description }, index) => (
 							<div className={setClass(index)} key={id}>
-								<div className='flex h-full px-16 py-12 justify-between gap-16 relative '>
+								<div className='flex h-full xl:px-16 lg:px-10 lg:py-12 justify-between lg:gap-16 gap-4 relative lg:flex-row flex-col lg:bg-transparent bg-[#8759B4]'>
 									<div className='border-8 border-zinc-800 w-full h-fit rounded bg-zinc-800/70 backdrop-blur-md'>
 										<iframe
 											className='aspect-video w-full'
@@ -81,9 +81,9 @@ export default function Video() {
 										/>
 									</div>
 
-									<div className='flex flex-col gap-12 h-fit border-8 border-zinc-800 bg-zinc-800/70 backdrop-blur-md p-4 w-1/2 rounded'>
-										<p className='text-3xl font-bold uppercase'>{title}</p>
-										<p className='font-normal text-xl '>{description}</p>
+									<div className='flex flex-col xl:gap-12 sm:gap-4 lg:h-fit border-8 border-zinc-800 lg:bg-zinc-800/70 bg-zinc-800/90 backdrop-blur-md py-4 lg:px-4 px-10 grow-0 rounded lg:relative h-full lg:w-1/2'>
+										<h2 className='xl:text-3xl lg:text-xl text-base font-bold uppercase'>{title}</h2>
+										<p className='font-normal lg:text-xl text-base '>{description}</p>
 									</div>
 								</div>
 							</div>

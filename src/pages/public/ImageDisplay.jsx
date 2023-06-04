@@ -67,16 +67,16 @@ export default function ImageDisplay() {
 			<h1 className='invisible hidden'>Réalisations</h1>
 			<Carousel array={imageData} carouselIndex={carouselIndex} setCarouselIndex={setCarouselIndex}>
 				<div className='h-full w-full'>
-					<div className='h-full w-full relative overflow-hidden border-8 border-[#8759B4] rounded'>
+					<div className='h-full w-full relative overflow-hidden border-4 lg:border-8 border-[#8759B4] rounded'>
 						{imageData.map(({ id, cover, background, title, description }, index) => (
 							<div className={setClass(index)} key={id}>
-								<img src={background} alt='' className='w-full h-full object-cover blur-sm' />
-								<div className='absolute top-0 left-0 flex h-full py-12 px-44 justify-between gap-24 '>
-									<img src={cover} alt='' className='max-h-full h-auto max-w-full w-auto border-8 border-zinc-800 rounded' />
+								<img src={background} alt='' className='w-full h-full object-cover blur-sm absolute sm:block hidden' />
+								<div className='flex h-full justify-around lg:py-12 xl:px-24 lg:px-10 xl:gap-24 lg:gap-8 gap-8 relative'>
+									<img src={cover} alt='' className='aspect-[3/4] border-8 border-zinc-800 rounded absolute lg:relative' />
 
-									<div className='flex flex-col gap-12 h-fit border-8 border-zinc-800 bg-zinc-800/70 backdrop-blur-md p-4 grow-0 basis-4/6 rounded'>
-										<h2 className='text-3xl font-bold uppercase'>{title}</h2>
-										<p className='font-normal text-xl '>{description}</p>
+									<div className='flex flex-col xl:gap-12 sm:gap-4 h-fit border-8 border-zinc-800 lg:bg-zinc-800/70 bg-zinc-800/90 backdrop-blur-md py-4 lg:px-4 px-10 grow-0 rounded lg:relative absolute bottom-0'>
+										<h2 className='xl:text-3xl lg:text-xl text-base font-bold uppercase'>{title}</h2>
+										<p className='font-normal lg:text-xl text-base '>{description}</p>
 									</div>
 								</div>
 							</div>
