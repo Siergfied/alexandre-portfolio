@@ -74,7 +74,7 @@ export default function ImageDisplay() {
 								<div className='flex h-full justify-around lg:py-12 xl:px-24 lg:px-10 xl:gap-24 lg:gap-8 gap-8 relative'>
 									<img src={cover} alt='' className='aspect-[3/4] border-8 border-zinc-800 rounded absolute lg:relative' />
 
-									<div className='flex flex-col xl:gap-12 sm:gap-4 h-fit border-8 border-zinc-800 lg:bg-zinc-800/70 bg-zinc-800/90 backdrop-blur-md py-4 lg:px-4 px-10 grow-0 rounded lg:relative absolute bottom-0'>
+									<div className='flex flex-col xl:gap-12 sm:gap-4 lg:h-fit border-8 border-zinc-800 lg:bg-zinc-800/70 bg-zinc-800/90 backdrop-blur-md py-4 lg:px-4 px-10 grow-0 rounded lg:relative absolute bottom-0 h-2/5 overflow-y-auto'>
 										<h2 className='xl:text-3xl lg:text-xl text-base font-bold uppercase'>{title}</h2>
 										<p className='font-normal lg:text-xl text-base '>{description}</p>
 									</div>
