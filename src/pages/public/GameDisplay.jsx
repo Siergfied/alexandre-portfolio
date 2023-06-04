@@ -34,18 +34,18 @@ export default function GameDisplay() {
 	}, []);
 
 	return (
-		<div className='h-full w-full relative overflow-hidden border-4 sm:border-8 border-[#8759B4] rounded-sm sm:px-16 py-12 bg-zinc-700'>
+		<div className='h-full w-full relative overflow-hidden border-4 sm:border-8 border-[#8759B4] rounded-sm lg:px-16 lg:py-12 p-4 bg-zinc-700 overflow-y-auto'>
 			<h1 className='invisible hidden'>Démo</h1>
 			{isMobile && <p className='text-3xl text-center'>Désoler, cette page est indisponible sur mobile.</p>}
 			{!isMobile && (
 				<>
 					{gameData[0] && (
-						<div className='flex h-full w-full gap-16'>
-							<div className='flex border-8 border-zinc-800 rounded-sm w-2/3 h-fit max-h-[100%]'>
+						<div className='flex h-full w-full lg:gap-16 gap-4 flex-col lg:flex-row'>
+							<div className='flex border-8 border-zinc-800 rounded-sm lg:w-2/3 w-full h-fit max-h-full'>
 								<iframe src={gameData[0].url} className='w-full aspect-[16/10]'></iframe>
 							</div>
 
-							<div className='flex flex-col gap-12 w-1/3 h-fit border-8 border-zinc-800 bg-zinc-800/75 backdrop-blur-md text-zinc-300 p-4 rounded-sm'>
+							<div className='flex flex-col lg:gap-12 gap-4 lg:w-1/3 h-fit border-8 border-zinc-800 bg-zinc-800/75 backdrop-blur-md text-zinc-300 p-4 rounded-sm'>
 								<h2 className='text-3xl font-bold uppercase'>{gameData[0].title} </h2>
 								<p className='font-normal text-xl '>{gameData[0].description}</p>
 								<ul className='flex flex-wrap gap-4'>

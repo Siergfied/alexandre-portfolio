@@ -27,7 +27,7 @@ export default function GlobalLayout({ children }) {
 	return (
 		<div className='min-h-screen bg-zinc-800 sm:px-4 lg:px-12 pb-12 font-serif text-violet-50'>
 			<div className='sticky top-0 z-50 lg:pt-4 pt-2' ref={navRef}>
-				<div className='flex pl-4 '>
+				<div className='flex pl-4 flex sm:hidden'>
 					<button onClick={() => handleNav()} className='flex sm:hidden h-10 w-10 justify-center items-center'>
 						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' className='w-6 h-6 '>
 							<path

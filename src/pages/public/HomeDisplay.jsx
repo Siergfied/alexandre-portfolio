@@ -84,7 +84,7 @@ export default function HomeDisplay() {
 								key={id}
 								className='flex flex-row items-center sm:py-1.5 py-0.5 px-1.5 gap-1.5 border border-transparent bg-zinc-700 rounded'
 							>
-								<img src={icon} className='md:h-10 md:w-10 h-6 w-6' />
+								<img src={icon} alt='' className='md:h-10 md:w-10 h-6 w-6' />
 								<span className='text-lg font-medium'>{title}</span>
 							</li>
 						))}
@@ -95,7 +95,7 @@ export default function HomeDisplay() {
 			<div className='flex w-full mt-auto mb-0 gap-4 justify-center sm:justify-start'>
 				{linksData.map(({ id, icon, title, url }) => (
 					<a key={id} href={url} target='_blank' className='flex flex-row items-center px-0.5 gap-1.5 h-full rounded hover:bg-zinc-600 '>
-						<img src={icon} className='sm:h-6 sm:w-6 h-8 w-8' aria-label={title} />
+						<img src={icon} alt='' className='sm:h-6 sm:w-6 h-8 w-8' aria-label={title} />
 						<span className='sm:text-xl sm:flex hidden'>{title}</span>
 					</a>
 				))}
