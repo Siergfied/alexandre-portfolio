@@ -70,7 +70,7 @@ export default function Video() {
 					<div className='h-full w-full relative overflow-hidden border-4 lg:border-8 border-[#8759B4] rounded bg-zinc-700'>
 						{videoData.map(({ id, url, title, description }, index) => (
 							<div className={setClass(index)} key={id}>
-								<div className='flex h-full xl:px-16 lg:px-10 lg:py-12 justify-between lg:gap-16 gap-4 relative lg:flex-row flex-col lg:bg-transparent bg-[#8759B4]'>
+								<div className='flex h-full xl:px-16 lg:px-10 lg:py-12 justify-between lg:gap-16 gap-4 relative lg:flex-row flex-col '>
 									<div className='border-8 border-zinc-800 w-full h-fit rounded bg-zinc-800/70 backdrop-blur-md'>
 										<iframe
 											className='aspect-video w-full'
