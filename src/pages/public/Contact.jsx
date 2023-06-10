@@ -51,7 +51,7 @@ export default function Contact() {
 	};
 
 	return (
-		<div className='h-full w-full relative overflow-hidden border-4 lg:border-8 border-[#8759B4] rounded-sm lg:px-16 lg:py-12 p-4 bg-zinc-700 flex justify-center'>
+		<div className='h-full w-full relative overflow-hidden border-4 lg:border-8 border-[#8759B4] rounded-sm lg:px-16 lg:py-12 sm:p-4 bg-zinc-700 flex justify-center'>
 			<div className='lg:w-1/2 h-full'>
 				<ContactForm
 					id='contact'
