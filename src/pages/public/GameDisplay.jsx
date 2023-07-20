@@ -42,7 +42,10 @@ export default function GameDisplay() {
 					{gameData[0] && (
 						<div className='flex h-full w-full lg:gap-16 gap-4 flex-col lg:flex-row'>
 							<div className='flex border-8 border-zinc-800 rounded-sm lg:w-2/3 w-full h-fit max-h-full'>
-								<iframe src={gameData[0].url} className='w-full aspect-[16/10]'></iframe>
+								<iframe
+									src={'https://i.simmer.io/' + gameData[0].url.split('https://sharemygame.com/').join('')}
+									className='w-full aspect-[16/10]'
+								></iframe>
 							</div>
 
 							<div className='flex flex-col lg:gap-12 gap-4 lg:w-1/3 h-fit border-8 border-zinc-800 bg-zinc-800/75 backdrop-blur-md text-zinc-300 p-4 rounded-sm'>
