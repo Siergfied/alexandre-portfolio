@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase.js';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 
+import textAreaDisplay from '../../functions/textAreaDisplay.jsx';
 import Carousel from '../../components/Carousel.jsx';
 
 export default function Video() {
@@ -83,7 +84,7 @@ export default function Video() {
 
 									<div className='flex flex-col xl:gap-12 sm:gap-4 lg:h-fit border-8 border-zinc-800 lg:bg-zinc-800/70 bg-zinc-800/90 backdrop-blur-md py-4 lg:px-4 px-10 grow-0 rounded lg:relative h-full lg:w-1/2'>
 										<h2 className='xl:text-3xl lg:text-xl text-base font-bold uppercase'>{title}</h2>
-										<p className='font-normal lg:text-xl text-base '>{description}</p>
+										<p className='font-normal lg:text-xl text-base '>{textAreaDisplay(description)}</p>
 									</div>
 								</div>
 							</div>

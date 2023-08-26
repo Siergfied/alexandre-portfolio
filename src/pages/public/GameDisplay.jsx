@@ -3,6 +3,8 @@ import { db } from '../../firebase.js';
 import { collection, getDocs } from 'firebase/firestore';
 import { isMobile } from 'react-device-detect';
 
+import textAreaDisplay from '../../functions/textAreaDisplay.jsx';
+
 export default function GameDisplay() {
 	const [gameData, setGameData] = useState([]);
 	const [categoryData, setCategoryData] = useState([]);
@@ -50,7 +52,7 @@ export default function GameDisplay() {
 
 							<div className='flex flex-col lg:gap-12 gap-4 lg:w-1/3 h-fit border-8 border-zinc-800 bg-zinc-800/75 backdrop-blur-md text-zinc-300 p-4 rounded-sm'>
 								<h2 className='text-3xl font-bold uppercase'>{gameData[0].title} </h2>
-								<p className='font-normal text-xl '>{gameData[0].description}</p>
+								<p className='font-normal text-xl '>{textAreaDisplay(gameData[0].description)}</p>
 								<ul className='flex flex-wrap gap-4'>
 									{categoryData.map(({ id, title, icon }) =>
 										gameData[0].category.includes(id) ? (

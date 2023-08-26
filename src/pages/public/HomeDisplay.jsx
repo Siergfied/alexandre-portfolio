@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase.js';
 import { collection, getDocs } from 'firebase/firestore';
 
+import textAreaDisplay from '../../functions/textAreaDisplay.jsx';
+
 export default function HomeDisplay() {
 	const [homeData, setHomeData] = useState([]);
 	const [langagesData, setLangagesData] = useState([]);
@@ -44,27 +46,6 @@ export default function HomeDisplay() {
 		document.title = 'Alexandre Fourcoux';
 	}, []);
 
-	const setClass = (number) => {
-		const classArray = ['absolute w-full h-full '];
-
-		switch (number) {
-			case carouselIndex:
-				classArray.push('duration-700 ease-in-out visible opacity-100');
-				break;
-			case previousCarousel(carouselIndex, imageData.length):
-				classArray.push('visible duration-700 ease-in-out -translate-x-full opacity-0');
-				break;
-			case nextCarousel(carouselIndex, imageData.length):
-				classArray.push('visible duration-700 ease-in-out translate-x-full opacity-0');
-				break;
-			default:
-				classArray.push('invisible opacity-0');
-				break;
-		}
-
-		return classArray.join('');
-	};
-
 	return (
 		<div className='flex flex-col h-full xl:pt-24 lg:pt-12 pt-4'>
 			{homeData[0] && (
@@ -73,9 +54,13 @@ export default function HomeDisplay() {
 				</h1>
 			)}
 
-			<div className='flex md:flex-row flex-col justify-evenly mt-12 xl:px-24 lg:px-12 px-8 xl:gap-24 lg:gap-12 gap-8'>
-				<div className='md:w-1/2 sm:w-full'>
-					{homeData[0] && <p className='font-normal sm:text-2xl text-base text-justify '>{homeData[0].description}</p>}
+			<div className='flex md:flex-row flex-col justify-evenly mt-12 xl:px-24 lg:px-12 px-8 xl:gap-24 lg:gap-12 gap-8 h-full mb-8'>
+				<div className='md:w-1/2 sm:w-full h-full'>
+					{homeData[0] && (
+						<p className='font-normal sm:text-2xl text-base text-justify w-full h-full bg-transparent resize-none border-0 '>
+							{textAreaDisplay(homeData[0].description)}
+						</p>
+					)}
 				</div>
 				<div className='md:w-1/2 sm:w-full'>
 					<ul className='flex gap-4 flex-wrap '>
